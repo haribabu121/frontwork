@@ -3,6 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Testimonial Carousel Custom Styles */
 .testimonial-slider .slick-dots {
   bottom: -40px;

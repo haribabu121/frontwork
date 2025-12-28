@@ -33,18 +33,18 @@ const teamMembers = [
     image: "https://www.kindpng.com/picc/m/140-1403886_office-girl-cartoon-png-transparent-png.png",
     linkedin: "#",
   },
-   {
-    name: "parvathi",
-    title: "Board Member",
-    image: "https://img.freepik.com/premium-photo/young-girl-hr-3d-character-young-working-girl-cartoon-character-professional-girl-character_1002350-2147.jpg?w=2000",
-    linkedin: "#",
-  },
-   {
-    name: "Sekhar",
-    title: "Board Member",
-    image: "https://static.vecteezy.com/system/resources/previews/030/690/466/non_2x/office-worker-2d-cartoon-illustraton-on-white-background-h-free-photo.jpg",
-    linkedin: "#",
-  },
+  //  {
+  //   name: "parvathi",
+  //   title: "Board Member",
+  //   image: "https://img.freepik.com/premium-photo/young-girl-hr-3d-character-young-working-girl-cartoon-character-professional-girl-character_1002350-2147.jpg?w=2000",
+  //   linkedin: "#",
+  // },
+  //  {
+  //   name: "Sekhar",
+  //   title: "Board Member",
+  //   image: "https://static.vecteezy.com/system/resources/previews/030/690/466/non_2x/office-worker-2d-cartoon-illustraton-on-white-background-h-free-photo.jpg",
+  //   linkedin: "#",
+  // },
 ];
 
 const FALLBACK_IMAGE = "https://via.placeholder.com/200x200.png?text=Team+Member";

@@ -20,7 +20,7 @@ import Fireworks from './components/services/details/Fireworks';
 import SoundLightVisual from './components/services/details/SoundLightVisual';
 import ItemSelection from './components/booking/ItemSelection';
 import ThankYou from './components/booking/ThankYou';
-import Gallery from './components/Gallery/Gallery';
+// import Gallery from './components/Gallery/Gallery';
 // import Payment from './components/booking/Payment';
 // import AnnouncementBar from './components/common/AnnoucementBar';
 function App() {
@@ -83,7 +83,7 @@ function App() {
             } />
           </Routes>
         </main>
-        <Gallery />
+        {/* <Gallery /> */}
         <Footer />
         <Detail />
       </div>

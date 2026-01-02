@@ -31,7 +31,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        'https://localhost:5000/api/contact',
+        'http://localhost:5000/api/contact',
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

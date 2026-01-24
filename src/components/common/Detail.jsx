@@ -8,7 +8,7 @@ const Detail = () => {
   if (!isVisible) return null;
   
   const announcements = [
-    { icon: <FaStar />, text: "Special discount on New Year Special!" },
+    { icon: <FaStar />, text: "Special discount on all types of events!" },
     { icon: <FaFireAlt />, text: "Book now and get 10% off on all services!" },
     { text: "Limited time offer: Free decoration with every booking!" },
   ];

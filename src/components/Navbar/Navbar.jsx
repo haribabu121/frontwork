@@ -48,6 +48,10 @@ const MarqueeText = () => (
         <span className="mx-4 font-medium"><FaStar className="inline mr-2" />🎉 Special discount on wedding packages this month!</span>
         <span className="mx-4 font-medium"><GiFireworkRocket className="inline mr-2" />✨ Book your event now and get 10% off on all services</span>
         <span className="mx-4 font-medium"><FaFireAlt className="inline mr-2" />🔥 Limited time offer: Free decoration with every booking</span>
+
+         <h1 class="text-3xl font-bold underline">
+    Hello paul!
+  </h1>
       </div>
     </div>
     <style jsx>{`

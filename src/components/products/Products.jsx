@@ -8,8 +8,70 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 // Add custom styles for mobile
 const customStyles = `
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
+  }
+
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .rbc-month-view, .rbc-time-view, .rbc-agenda-view {
-    min-height: 400px;
+    min-height: 450px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .rbc-month-row {
@@ -17,34 +79,51 @@ const customStyles = `
   }
   
   .rbc-day-bg, .rbc-header, .rbc-header + .rbc-header {
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
   }
   
   .rbc-today {
-    background-color: #fef9c3;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(147, 51, 234, 0.3) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.5);
   }
   
   .rbc-off-range-bg {
-    background: #f8fafc;
+    background: rgba(255, 255, 255, 0.02);
   }
   
   .rbc-month-view .rbc-date-cell {
     padding: 4px;
     text-align: center;
+    font-weight: 600;
+    color: white;
   }
   
   .rbc-date-cell.rbc-now {
     font-weight: bold;
-    color: #d97706;
+    color: #60a5fa;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.4) 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
   }
   
   .rbc-event {
-    background-color: #f59e0b;
-    border-radius: 4px;
-    padding: 2px 4px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-radius: 8px;
+    padding: 3px 8px;
     color: white;
     font-size: 12px;
     text-align: center;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+  }
+  
+  .rbc-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    font-weight: 700;
+    color: white;
+    padding: 16px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   /* Mobile optimizations */
@@ -78,8 +157,8 @@ const customStyles = `
       -webkit-tap-highlight-color: rgba(0,0,0,0.1);
     }
     
-    .rbc-day-bg:active {
-      background-color: #f0f9ff;
+    .rbc-day-bg:hover {
+      background-color: rgba(147, 51, 234, 0.1);
     }
   }
 `;
@@ -117,36 +196,37 @@ const CustomToolbar = ({ label, onNavigate, onView }) => {
   };
 
   return (
-    <div 
-      className="rbc-toolbar flex flex-col sm:flex-row items-center justify-between gap-2 mb-3"
+    <div
+      className="rbc-toolbar flex flex-col sm:flex-row items-center justify-between gap-6 mb-8 p-6 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <button 
-        className="rbc-btn bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors" 
+      <button
+        className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-8 py-3 rounded-2xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 font-bold overflow-hidden group/btn"
         onClick={() => onNavigate("TODAY")}
       >
-        Today
+        <span className="relative z-10">Today</span>
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
       </button>
-      <div className="flex items-center gap-2 sm:gap-4">
-        <button 
-          className="rbc-btn p-1 sm:p-2 rounded-full hover:bg-gray-100"
+      <div className="flex items-center gap-6">
+        <button
+          className="p-4 rounded-2xl hover:bg-white/10 transition-all duration-200 shadow-lg hover:shadow-purple-500/25 backdrop-blur-sm border border-white/20"
           onClick={() => onNavigate("PREV")}
           aria-label="Previous month"
         >
-          <FaChevronLeft className="text-yellow-600" />
+          <FaChevronLeft className="text-white hover:text-blue-300" />
         </button>
-        <span className="font-medium text-sm sm:text-base">{label}</span>
-        <button 
-          className="rbc-btn p-1 sm:p-2 rounded-full hover:bg-gray-100"
+        <span className="font-bold text-2xl text-white min-w-max">{label}</span>
+        <button
+          className="p-4 rounded-2xl hover:bg-white/10 transition-all duration-200 shadow-lg hover:shadow-purple-500/25 backdrop-blur-sm border border-white/20"
           onClick={() => onNavigate("NEXT")}
           aria-label="Next month"
         >
-          <FaChevronRight className="text-yellow-600" />
+          <FaChevronRight className="text-white hover:text-blue-300" />
         </button>
       </div>
-      <style jsx>{customStyles}</style>
+      <div className="hidden sm:block w-24"></div> {/* Spacer for alignment */}
     </div>
   );
 };
@@ -622,42 +702,155 @@ const Products = () => {
   ];
 
   return (
-    <section id="products" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-10">
-          <div className="group">
-            <h1 className="text-4xl font-bold text-center mb-4 group-hover:text-yellow-500 transition-colors duration-300">Our Products</h1>
-            <div className="group relative">
-              <div className="w-24 h-1.5 mx-auto transform origin-left transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-size-200 group-hover:bg-pos-0 bg-pos-100"></div>
+    <section id="products" className="py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden min-h-screen">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        {/* Primary gradient orbs */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-r from-pink-400/20 to-orange-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+
+        {/* Floating particles */}
+        <div className="absolute top-20 left-20 w-2 h-2 bg-white/30 rounded-full animate-bounce delay-300"></div>
+        <div className="absolute top-40 right-32 w-1 h-1 bg-blue-300/50 rounded-full animate-bounce delay-700"></div>
+        <div className="absolute bottom-32 left-40 w-1.5 h-1.5 bg-purple-300/40 rounded-full animate-bounce delay-1000"></div>
+        <div className="absolute bottom-20 right-20 w-1 h-1 bg-pink-300/50 rounded-full animate-bounce delay-500"></div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Enhanced Header */}
+        <div className="text-center mb-20">
+          <div className="relative">
+            {/* Glow effect behind title */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl scale-150"></div>
+
+            <h1 className="relative text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-200 mb-8 animate-fade-in-up">
+              Our
+              <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
+                Premium Products
+              </span>
+            </h1>
+
+            {/* Animated underline */}
+            <div className="relative mx-auto w-48 h-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-sm animate-pulse delay-75"></div>
+            </div>
+          </div>
+
+          <p className="text-gray-300 max-w-4xl mx-auto text-xl leading-relaxed font-light mt-8 animate-fade-in-up delay-200">
+            Discover our exclusive collection of cutting-edge event technology and premium entertainment solutions,
+            crafted to transform your special moments into unforgettable experiences.
+          </p>
+
+          {/* Stats */}
+          <div className="flex justify-center gap-8 mt-12 animate-fade-in-up delay-300">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white">25+</div>
+              <div className="text-gray-400 text-sm">Products</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white">1000+</div>
+              <div className="text-gray-400 text-sm">Happy Events</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white">5★</div>
+              <div className="text-gray-400 text-sm">Avg Rating</div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
-          {products.map((p) => (
-            <div key={p.id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-xl">
-              <img src={p.image} className="w-full h-40 object-cover rounded" />
+          {products.map((p, index) => (
+            <div
+              key={p.id}
+              className="group relative animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* Glassmorphism Card */}
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-700 transform hover:-translate-y-4 hover:rotate-1 border border-white/20 overflow-hidden h-full">
 
-              <h3 className="text-xl font-bold mt-3">
-                {p.name.replace(/-/g, " ")}
-              </h3>
+                {/* Animated border gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
 
-              <p className="text-gray-600 text-sm mt-1">{p.description}</p>
+                {/* Image Container */}
+                <div className="relative overflow-hidden rounded-t-3xl">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+                  <img
+                    src={p.image}
+                    className="w-full h-56 object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+                    alt={p.name.replace(/-/g, " ")}
+                  />
 
-              <div className="flex justify-between items-center mt-3">
-                <span className="text-yellow-600 text-xl font-bold">{p.price}</span>
-                <span className="flex items-center">
-                  <FaStar className="text-yellow-500" /> {p.rating}
-                </span>
+                  {/* Overlay content */}
+                  <div className="absolute bottom-4 left-4 right-4 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="flex items-center justify-between">
+                      <div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
+                        <div className="flex items-center gap-1">
+                          <FaStar className="text-yellow-400 text-sm" />
+                          <span className="text-white text-sm font-medium">{p.rating}</span>
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-75 group-hover:scale-100">
+                        <FaArrowRight className="text-white text-sm" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 relative z-10">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-200 transition-colors duration-300 line-clamp-2">
+                    {p.name.replace(/-/g, " ")}
+                  </h3>
+
+                  <p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3">
+                    {p.description}
+                  </p>
+
+                  {/* Features */}
+                  {p.features && (
+                    <div className="mb-4">
+                      <div className="flex flex-wrap gap-1">
+                        {p.features.slice(0, 2).map((feature, idx) => (
+                          <span
+                            key={idx}
+                            className="text-xs bg-white/10 text-gray-200 px-2 py-1 rounded-full backdrop-blur-sm"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Price and CTA */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+                        ₹{p.price}
+                      </span>
+                      <span className="text-xs text-gray-400">Starting from</span>
+                    </div>
+
+                    <button
+                      onClick={() => handleBookNow(p)}
+                      className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 hover:-rotate-1 overflow-hidden group/btn"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        Book Now
+                        <FaArrowRight className="transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 rounded-3xl"></div>
               </div>
-
-              <button
-                onClick={() => handleBookNow(p)}
-                className="w-full mt-4 bg-yellow-500 text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-yellow-600"
-              >
-                Book Now <FaArrowRight />
-              </button>
             </div>
           ))}
 
@@ -666,105 +859,151 @@ const Products = () => {
 
       {/* FORM POPUP */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-bold">Enter Details</h3>
-              <FaTimes className="cursor-pointer" onClick={() => setShowForm(false)} />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 p-4 animate-fade-in">
+          <div className="bg-white/10 backdrop-blur-2xl w-full max-w-md p-8 rounded-3xl shadow-2xl border border-white/20 transform animate-in fade-in-0 zoom-in-95 duration-500">
+            {/* Animated border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 rounded-3xl opacity-50 blur-sm animate-pulse"></div>
+
+            <div className="relative z-10">
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-2">Enter Your Details</h3>
+                  <p className="text-gray-300 text-sm">Let's make your event magical</p>
+                </div>
+                <button
+                  className="p-3 hover:bg-white/10 rounded-full transition-all duration-200 hover:rotate-90"
+                  onClick={() => setShowForm(false)}
+                >
+                  <FaTimes className="text-gray-300 hover:text-white" />
+                </button>
+              </div>
+
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-white">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your full name"
+                    className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 px-4 py-4 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white/20 transition-all duration-300 outline-none backdrop-blur-sm"
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-white">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="Enter 10-digit phone number"
+                    className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 px-4 py-4 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white/20 transition-all duration-300 outline-none backdrop-blur-sm"
+                    pattern="[0-9]{10}"
+                    onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-white">Occasion</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g., Wedding, Birthday, Corporate Event"
+                    className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 px-4 py-4 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white/20 transition-all duration-300 outline-none backdrop-blur-sm"
+                    onChange={e => setFormData({ ...formData, occasion: e.target.value })}
+                  />
+                </div>
+
+                <button
+                  className="w-full relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white py-4 rounded-2xl hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 font-bold text-lg overflow-hidden group/btn mt-8"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-3">
+                    Submit Details
+                    <FaArrowRight className="transition-transform duration-300 group-hover/btn:translate-x-1" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                </button>
+              </form>
             </div>
-
-            <form onSubmit={handleFormSubmit} className="mt-4 space-y-3">
-              <input
-                type="text"
-                required
-                placeholder="Your Name"
-                className="w-full border px-3 py-2 rounded"
-                onChange={e => setFormData({ ...formData, name: e.target.value })}
-              />
-              <input
-                type="tel"
-                required
-                placeholder="Phone Number (10 digits)"
-                className="w-full border px-3 py-2 rounded"
-                pattern="[0-9]{10}"
-                onChange={e => setFormData({ ...formData, phone: e.target.value })}
-              />
-              <input
-                type="text"
-                required
-                placeholder="Occasion"
-                className="w-full border px-3 py-2 rounded"
-                onChange={e => setFormData({ ...formData, occasion: e.target.value })}
-              />
-
-              <button className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600">
-                Submit
-              </button>
-            </form>
           </div>
         </div>
       )}
 
       {/* CALENDAR POPUP */}
       {showCalendar && (
-        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
-          <div className="bg-white w-full max-w-4xl p-4 rounded-lg shadow-lg">
-            <div className="flex justify-between mb-2">
-              <h3 className="text-xl font-bold">Select Date</h3>
-              <FaTimes className="cursor-pointer" onClick={() => setShowCalendar(false)} />
-            </div>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 p-4 animate-fade-in">
+          <div className="bg-white/10 backdrop-blur-2xl w-full max-w-5xl p-8 rounded-3xl shadow-2xl border border-white/20 transform animate-in fade-in-0 zoom-in-95 duration-500">
+            {/* Animated border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 rounded-3xl opacity-50 blur-sm animate-pulse"></div>
 
-            <div className="w-full overflow-auto">
-              <Calendar
-                date={currentDate}
-                onNavigate={(date) => setCurrentDate(date)}
-                localizer={localizer}
-                events={events}
-                selectable
-                startAccessor="start"
-                endAccessor="end"
-                onSelectSlot={handleSelectSlot}
-                components={{
-                  toolbar: (props) => <CustomToolbar {...props} />,
-                  month: {
-                    dateHeader: ({ date, label }) => {
-                      const isToday = isSameDay(date, new Date());
-                      const isSelected = isSameDay(date, currentDate);
-                      return (
-                        <div 
-                          className={`rbc-date-cell ${isToday ? 'rbc-now' : ''} ${isSelected ? 'bg-yellow-100' : ''}`}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: '50%',
-                            aspectRatio: '1/1',
-                            margin: '0 auto',
-                            maxWidth: '36px',
-                          }}
-                        >
-                          {label}
-                        </div>
-                      );
+            <div className="relative z-10">
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-2">Select Your Perfect Date</h3>
+                  <p className="text-gray-300 text-sm">Choose an available date to make your event unforgettable</p>
+                </div>
+                <button
+                  className="p-3 hover:bg-white/10 rounded-full transition-all duration-200 hover:rotate-90"
+                  onClick={() => setShowCalendar(false)}
+                >
+                  <FaTimes className="text-gray-300 hover:text-white" />
+                </button>
+              </div>
+
+              <div className="w-full overflow-hidden bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+                <Calendar
+                  date={currentDate}
+                  onNavigate={(date) => setCurrentDate(date)}
+                  localizer={localizer}
+                  events={events}
+                  selectable
+                  startAccessor="start"
+                  endAccessor="end"
+                  onSelectSlot={handleSelectSlot}
+                  components={{
+                    toolbar: (props) => <CustomToolbar {...props} />,
+                    month: {
+                      dateHeader: ({ date, label }) => {
+                        const isToday = isSameDay(date, new Date());
+                        const isSelected = isSameDay(date, currentDate);
+                        return (
+                          <div
+                            className={`rbc-date-cell ${isToday ? 'rbc-now' : ''} ${isSelected ? 'bg-blue-500/30' : ''} hover:bg-purple-500/20 transition-all duration-300 backdrop-blur-sm`}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderRadius: '50%',
+                              aspectRatio: '1/1',
+                              margin: '0 auto',
+                              maxWidth: '40px',
+                              cursor: 'pointer',
+                              color: 'white',
+                              fontWeight: '600',
+                            }}
+                          >
+                            {label}
+                          </div>
+                        );
+                      },
                     },
-                  },
-                }}
-                defaultView={Views.MONTH}
-                views={[Views.MONTH]}
-                style={{ 
-                  minHeight: "300px",
-                  maxHeight: "80vh",
-                  '--cell-size': '40px',
-                }}
-                dayPropGetter={(date) => ({
-                  style: {
-                    minHeight: '60px',
-                    cursor: 'pointer',
-                  },
-                })}
-              />
+                  }}
+                  defaultView={Views.MONTH}
+                  views={[Views.MONTH]}
+                  style={{
+                    minHeight: "450px",
+                    maxHeight: "75vh",
+                    '--cell-size': '45px',
+                  }}
+                  dayPropGetter={(date) => ({
+                    style: {
+                      minHeight: '65px',
+                      cursor: 'pointer',
+                    },
+                  })}
+                />
+              </div>
             </div>
           </div>
         </div>

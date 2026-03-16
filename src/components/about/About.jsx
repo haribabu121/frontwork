@@ -1,63 +1,168 @@
 import React from 'react';
-import { FaStar, FaFire, FaCalendarAlt } from 'react-icons/fa';
+import { FaStar, FaFire, FaCalendarAlt, FaMagic, FaCertificate } from 'react-icons/fa';
 
 const About = () => {
   return (
-    <section id="about-us" className="py-12 bg-white">
-      <div className="container mx-auto px-6">
+    <section id="about-us" className="relative overflow-hidden py-24 bg-gradient-to-br from-slate-950 via-indigo-950 to-black">
+      <div className="absolute inset-0">
+        <div className="absolute -top-28 -left-24 w-96 h-96 rounded-full bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-28 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-pink-500/20 via-orange-500/10 to-transparent blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_60%)]" />
+      </div>
+
+      <div className="relative container mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="group">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 group-hover:text-yellow-500 transition-colors duration-300">About AK Events & Fireworks</h2>
-            <div className="group relative">
-              <div className="w-24 h-1.5 mx-auto transform origin-left transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-size-200 group-hover:bg-pos-0 bg-pos-100"></div>
-            </div>
-          </div>
+          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-pink-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-fade-in-up">
+            About <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">AK Events & Fireworks</span>
+          </h2>
+          <p className="mt-6 max-w-3xl mx-auto text-lg text-slate-200 font-light leading-relaxed animate-fade-in-up delay-150">
+            We bring every celebration to life with premium pyrotechnic design, flawless execution, and the kind of wow-factor that becomes the talk of the town.
+          </p>
         </div>
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-            <h3 className="text-3xl font-semibold mb-6">Your Premier Event Partner</h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              With over 1+ years of experience in the industry, AK Events & Fireworks has been the go-to choice for spectacular firework displays and event management services.
-            </p>
-            <div className="space-y-4">
-              <div className="flex items-start">
-                <FaStar className="text-yellow-500 text-xl mt-1 mr-4 flex-shrink-0" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="relative rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden p-10 animate-fade-in-left">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent opacity-80" />
+            <div className="relative z-10">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 text-white shadow-lg">
+                  <FaMagic className="text-2xl" />
+                </div>
                 <div>
-                  <h4 className="font-semibold text-lg">Professional Team</h4>
-                  <p className="text-gray-600">Certified pyrotechnicians and event professionals</p>
+                  <h3 className="text-2xl font-bold text-white">We Craft Experiences</h3>
+                  <p className="mt-2 text-slate-200 leading-relaxed">
+                    Every show is designed from scratch to match your vision, venue, and audience energy.
+                  </p>
                 </div>
               </div>
-              <div className="flex items-start">
-                <FaFire className="text-red-500 text-xl mt-1 mr-4 flex-shrink-0" />
-                <div>
-                  <h4 className="font-semibold text-lg">Custom Shows</h4>
-                  <p className="text-gray-600">Tailored firework displays for any occasion</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="flex gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-100">
+                    <FaStar className="text-lg" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white">Elite Team</h4>
+                    <p className="text-slate-300 text-sm">Certified pyrotechnicians & event planners.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-pink-500/20 text-pink-100">
+                    <FaFire className="text-lg" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white">Custom Shows</h4>
+                    <p className="text-slate-300 text-sm">Choreographed fireworks matched to your soundtrack.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/20 text-blue-100">
+                    <FaCalendarAlt className="text-lg" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white">End-to-End Planning</h4>
+                    <p className="text-slate-300 text-sm">Permits, logistics, and on-site safety coordination.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-100">
+                    <FaCertificate className="text-lg" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white">Trusted Excellence</h4>
+                    <p className="text-slate-300 text-sm">Rave reviews from weddings, festivals, and corporate events.</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-start">
-                <FaCalendarAlt className="text-blue-500 text-xl mt-1 mr-4 flex-shrink-0" />
-                <div>
-                  <h4 className="font-semibold text-lg">Full Event Planning</h4>
-                  <p className="text-gray-600">From concept to execution, we handle it all</p>
-                </div>
+
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:scale-[1.02] hover:shadow-blue-500/50"
+                >
+                  Book a Free Consultation
+                </a>
+                <a
+                  href="#gallery"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10"
+                >
+                  View Our Portfolio
+                </a>
               </div>
             </div>
           </div>
-          <div className="md:w-1/2">
-            <div className="relative rounded-lg overflow-hidden shadow-2xl">
-              <img 
-                src="https://magarticles.magzter.com/articles/9339/378545/5dafe628542f8/Fireworks-Events.jpg" 
-                alt="Fireworks display" 
-                className="w-full h-auto rounded-lg"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-yellow-500 text-black p-6 rounded-lg shadow-lg w-48">
-                <span className="block text-4xl font-bold">1+</span>
-                <span className="text-lg">Years Experience</span>
+
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-gradient-to-br from-black/30 to-white/5 backdrop-blur-xl animate-fade-in-right">
+            <img
+              src="https://images.unsplash.com/photo-1528197594958-96c20a75a403?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80"
+              alt="Fireworks celebration"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="rounded-2xl bg-white/10 border border-white/10 p-5 backdrop-blur-xl">
+                <div className="text-3xl font-bold text-white">50+</div>
+                <div className="mt-1 text-sm text-slate-200">Live Events Produced</div>
+              </div>
+              <div className="rounded-2xl bg-white/10 border border-white/10 p-5 backdrop-blur-xl">
+                <div className="text-3xl font-bold text-white">1000+</div>
+                <div className="mt-1 text-sm text-slate-200">Firework Choreographies</div>
+              </div>
+              <div className="rounded-2xl bg-white/10 border border-white/10 p-5 backdrop-blur-xl">
+                <div className="text-3xl font-bold text-white">20+</div>
+                <div className="mt-1 text-sm text-slate-200">Cities Served</div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in-left {
+          from {
+            opacity: 0;
+            transform: translateX(-40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fade-in-right {
+          from {
+            opacity: 0;
+            transform: translateX(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in-left {
+          animation: fade-in-left 0.9s ease-out both;
+        }
+
+        .animate-fade-in-right {
+          animation: fade-in-right 0.9s ease-out both;
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.9s ease-out both;
+        }
+      `}</style>
     </section>
   );
 };

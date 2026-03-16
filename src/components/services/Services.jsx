@@ -44,81 +44,80 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="group">
-            <h2 className="text-4xl font-bold text-gray-900 mb-3 group-hover:text-yellow-500 transition-colors duration-300">Our Services</h2>
-            <div className="group relative">
-              <div className="w-24 h-1.5 mx-auto rounded-full transform origin-left transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-size-200 group-hover:bg-pos-0 bg-pos-100"></div>
-            </div>
-          </div>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
-            Discover our comprehensive range of event services designed to make your occasion truly unforgettable.
+    <section id="services" className="relative py-24 bg-gradient-to-br from-slate-950 via-indigo-950 to-black overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-28 -left-20 w-96 h-96 rounded-full bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent blur-3xl animate-pulse" />
+        <div className="absolute -bottom-28 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-pink-500/20 via-orange-500/10 to-transparent blur-3xl animate-pulse delay-500" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.05),_transparent_65%)]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-fuchsia-200 drop-shadow-[0_0_25px_rgba(255,255,255,0.18)] animate-fade-in-up">
+            Premium Products
+          </h2>
+          <p className="mt-6 max-w-3xl mx-auto text-lg text-slate-200 font-light leading-relaxed animate-fade-in-up delay-150">
+            Explore our premium product lineup, designed with rich color themes and polished experiences for every event.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
-            <div 
+            <div
               key={service.id}
-              className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+              className="group relative rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:shadow-purple-500/20"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative p-8 h-full flex flex-col items-center text-center">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center mb-6 rounded-2xl bg-white shadow-md group-hover:shadow-lg transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent opacity-70" />
+              <div className="relative z-10 p-10 flex flex-col items-center text-center h-full">
+                <div className="flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 mb-6 rounded-2xl bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/10 shadow-lg transition group-hover:scale-105">
                   {service.icon}
                 </div>
-                
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 transition-colors duration-300 group-hover:text-white">
                   {service.title}
                 </h3>
-                
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed mb-8">
                   {service.description}
                 </p>
-                
-                <div className="mt-auto pt-4 w-full border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
-                  <Link 
-                    to={
-                      service.id === 'cloud-effects' ? '/services/cloud-effects' :
-                      service.id === 'luxury-wedding' ? '/services/luxury-wedding' :
-                      service.id === 'grand-entry' ? '/services/grand-entry' :
-                      service.id === 'venue-decoration' ? '/services/venue-decoration' :
-                      service.id === 'fireworks' ? '/services/fireworks' :
-                      service.id === 'sound-light' ? '/services/sound-light-visual' : '#'
-                    }
-                    className="inline-flex items-center text-sm font-medium text-yellow-600 hover:text-yellow-700 transition-colors duration-300"
-                  >
-                    Learn more
-                    <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                  </Link>
-                </div>
+
+                <Link
+                  to={
+                    service.id === 'cloud-effects' ? '/services/cloud-effects' :
+                    service.id === 'luxury-wedding' ? '/services/luxury-wedding' :
+                    service.id === 'grand-entry' ? '/services/grand-entry' :
+                    service.id === 'venue-decoration' ? '/services/venue-decoration' :
+                    service.id === 'fireworks' ? '/services/fireworks' :
+                    service.id === 'sound-light' ? '/services/sound-light-visual' : '#'
+                  }
+                  className="mt-auto inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:scale-[1.02] hover:shadow-blue-500/40"
+                >
+                  Explore
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
-              
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-yellow-400 rounded-xl pointer-events-none transition-all duration-500"></div>
+
+              <div className="absolute inset-0 border-2 border-transparent rounded-3xl group-hover:border-blue-500/40" />
             </div>
           ))}
         </div>
       </div>
-      
-      <style jsx global>{`
-        /* Smooth scrolling for the entire page */
-        html {
-          scroll-behavior: smooth;
+
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-        
-        /* Card hover effect */
-        .group:hover .group-hover\:scale-110 {
-          transform: scale(1.1);
-        }
-        
-        /* Smooth transitions for all elements */
-        * {
-          transition: all 0.3s ease-in-out;
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.9s ease-out both;
         }
       `}</style>
     </section>

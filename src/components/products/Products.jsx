@@ -233,6 +233,12 @@ const CustomToolbar = ({ label, onNavigate, onView }) => {
 
 const showAlert = (message) => alert(message);
 
+const productDomId = (name) =>
+  String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+
 const Products = () => {
   const [showForm, setShowForm] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -241,6 +247,25 @@ const Products = () => {
   const [formData, setFormData] = useState({ name: "", phone: "", occasion: "" });
   const [events, setEvents] = useState([]);
   const [emailSent, setEmailSent] = useState(false); // <-- NEW: prevent duplicate email
+  const [products, setProducts] = useState([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const base = import.meta.env.VITE_API_URL || "";
+    fetch(`${base}/api/cms/products`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.ok) setProducts(data.products || []);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setCatalogLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Load saved bookings
   useEffect(() => {
@@ -369,340 +394,8 @@ const Products = () => {
       .catch(err => console.error("EmailJS Error:", err));
   };
 
-  /** ---------------------------
-   * PRODUCTS LIST
-   * --------------------------- */
-  const products = [
-    {
-      id: 1,
-      name: "sparkcular-machines",
-      price: "7500",
-      rating: 4.8,
-      description: "A stunning display of colorful sparks.",
-      image: "https://tse4.mm.bing.net/th/id/OIP.i95cp4GA8-t8ZDRlzmkowwHaGS"
-    },
-    {
-      id: 2,
-      name: "fire-flame-machines",
-      price: "6000",
-      rating: 4.9,
-      description: "Powerful flame machine with strong visuals.",
-      image: "https://5.imimg.com/data5/NR/MV/DM/SELLER-31673312/flame-fire-machine.jpg"
-    },
-    {
-      id: 3,
-      name: "co2-jets",
-      price: "10000",
-      rating: 4.7,
-      description: "Beautiful CO2 jet effect.",
-      image: "https://tse4.mm.bing.net/th/id/OIP.H8SO6gvIrkrq3JE7XdKLlgHaHW"
-    },
-    {
-      id: 4,
-      name: "smoke-bubble-machines",
-      price: "5000",
-      rating: 4.7,
-      description: "Perfect for weddings and events.",
-      image: "https://m.media-amazon.com/images/I/71XRUGq9bBL.jpg"
-    },
-    {
-      id: 5,
-      name: 'co2-jumbo-paper-machines',
-      price: '12000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://5.imimg.com/data5/SELLER/Default/2022/10/KO/CL/NP/102604979/1663308629h06942b37ce214c7fb7de4af487c07ef5e-1000x1000.jpg',
-      features: [
-        'Elegant golden display',
-        'shots: 10',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-    {
-      id: 6,
-      name: 'co2 paper gun',
-      price: '10000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://tse3.mm.bing.net/th/id/OIP.4lLFDzNx3k0jSkkIeeQlDwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
-      features: [
-        'Elegant golden display',
-        'shots:6 to 8 ',
-        'Creates a romantic ambiance',
-        'Perfect for stage programs'
-      ]
-    },
-    {
-      id: 7,
-      name: 'cold-fires',
-      price: '800',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/sykuhysgetY/maxresdefault.jpg',
-      features: [
-        'Elegant golden display',
-        'Duration: 30seconds',
-        'Creates a romantic ambiance',
-        'Perfect for weddings'
-      ]
-    },
-    {
-      id: 8,
-      name: 'Dry ice smoke machine ',
-      price: '4000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://tse1.mm.bing.net/th/id/OIP.Loh9p4wds6L7ifFmwQu2uwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-    {
-      id: 9,
-      name: 'fan-wheel Rotator',
-      price: '6000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/80ZQrOqjoOE/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AGoA4AC8AGKAgwIABABGGUgWChXMA8=&rs=AOn4CLBW6hrjvR1xjDCYqBHPas2_ip_KVA',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 10,
-      name: 'Ballon blast Entry',
-      price: '6000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://storage.googleapis.com/shy-pub/337348/SKU-1710_0-1731843277374.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 11,
-      name: 'stage rotating machine',
-      price: '4500',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://tse3.mm.bing.net/th/id/OIP.2rj5NKIT5nt6NLcEI0SXcQHaHa?cb=ucfimgc2&rs=1&pid=ImgDetMain&o=7&rm=3',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 12,
-      name: '360 degree silfy booth',
-      price: '12000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://image.made-in-china.com/2f0j00EqfVLzvtuMGh/Magic-RGB-Lights-Mirror-Glass-Camera-Props-Selfie-Photo-Booth-360.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 13,
-      name: 'stadium short',
-      price: '6000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://static.vecteezy.com/system/resources/previews/027/297/290/non_2x/football-soccer-field-stadium-at-night-and-fireworks-ai-generate-photo.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 14,
-      name: 'Pot smoke Entry',
-      price: '5000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/gTnvo1PGKxI/hqdefault.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 15,
-      name: 'paper-blower',
-      price: '5000/10000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://image.made-in-china.com/2f0j00iDrUgMntseoa/Easy-Hand-Control-Party-Strong-CO2-Confetti-Machine-Weding-Paper-Blaster-Blower-with-Flight-Case.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 16,
-      name: 'Heart-shape rotating',
-      price: '2500',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://img.freepik.com/premium-photo/heart-shaped-fireworks-with-heart-shape-made-fireworks_147933-4235.jpg?w=2000',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 17,
-      name: 'Dancing machine',
-      price: '1500',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/80ZQrOqjoOE/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AGoA4AC8AGKAgwIABABGGUgWChXMA8=&rs=AOn4CLBW6hrjvR1xjDCYqBHPas2_ip_KVA',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 18,
-      name: 'Entry ',
-      price: 'start from 10000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://cdn0.weddingwire.in/article/2376/original/1280/jpg/76732-couple-entry-ideas-dream-diaries-fireworks.jpeg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 19,
-      name: 'Birthday car Entry',
-      price: '4500',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/5KBa9YkROuw/maxresdefault.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 20,
-      name: 'food stall popkon stall',
-      price: '5000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://img.freepik.com/premium-photo/popcorn-stand-commercial-stall-preparing-selling-popcorn-snack_1061358-255768.jpg?w=2000',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 21,
-      name: 'chocolate fountain',
-      price: '5000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://img.freepik.com/premium-photo/chocolate-fountain-with-chocolate-sauce-dripping-down-center_922940-1036.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 22,
-      name: 'sugar candy',
-      price: '5000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://img.freepik.com/premium-photo/watercolor-illustration-fireworks-playful-bursts-candy-cane-red-mint-green_759095-172229.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-     {
-      id: 23,
-      name: '288 skyshot',
-      price: '2500',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://i.ytimg.com/vi/ovRMf-L4E_w/hqdefault.jpg?sqp=-oaymwEoCOADEOgC8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYVCBlKEwwDw==&rs=AOn4CLCMYndEr7TXJZGEgBHbHOIJu-YhQw',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-    {
-      id: 24,
-      name: 'vintage cars',
-      price: '15000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAzL3JtNjM0LWEtZWxlbWVudHNncm91cC10b24tMTktMDAxYy5qcGc.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-    {
-      id: 25,
-      name: 'fireworks',
-      price: '15000',
-      rating: 4.7,
-      description: 'Beautiful golden sparks that fall like rain, creating a magical and romantic atmosphere.',
-      image: 'https://cdn.pixabay.com/photo/2022/11/11/22/32/fireworks-7585928_1280.jpg',
-      features: [
-        'Elegant golden display',
-        'shots:5',
-        'Creates a romantic ambiance',
-        'Perfect for Entry concepts'
-      ]
-    },
-  ];
-
   return (
-    <section id="products" className="py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden min-h-screen">
+    <section id="products" className="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden min-h-screen">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Primary gradient orbs */}
@@ -717,14 +410,14 @@ const Products = () => {
         <div className="absolute bottom-20 right-20 w-1 h-1 bg-pink-300/50 rounded-full animate-bounce delay-500"></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Enhanced Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
           <div className="relative">
             {/* Glow effect behind title */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl scale-150"></div>
 
-            <h1 className="relative text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-200 mb-8 animate-fade-in-up">
+            <h1 className="relative text-3xl font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-200 mb-6 animate-fade-in-up sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl sm:mb-8">
               Our
               <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
                 Premium Products
@@ -738,34 +431,45 @@ const Products = () => {
             </div>
           </div>
 
-          <p className="text-gray-300 max-w-4xl mx-auto text-xl leading-relaxed font-light mt-8 animate-fade-in-up delay-200">
+          <p className="text-gray-300 max-w-4xl mx-auto text-sm leading-relaxed font-light mt-6 animate-fade-in-up delay-200 sm:text-base md:text-lg lg:text-xl px-1 sm:mt-8">
             Discover our exclusive collection of cutting-edge event technology and premium entertainment solutions,
             crafted to transform your special moments into unforgettable experiences.
           </p>
 
           {/* Stats */}
-          <div className="flex justify-center gap-8 mt-12 animate-fade-in-up delay-300">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">25+</div>
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 mt-8 sm:mt-12 animate-fade-in-up delay-300 px-2">
+            <div className="text-center min-w-[4.5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl">
+                {catalogLoading ? "…" : products.length > 0 ? `${products.length}+` : "—"}
+              </div>
               <div className="text-gray-400 text-sm">Products</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">1000+</div>
+            <div className="text-center min-w-[4.5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl">1000+</div>
               <div className="text-gray-400 text-sm">Happy Events</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">5★</div>
+            <div className="text-center min-w-[4.5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl">5★</div>
               <div className="text-gray-400 text-sm">Avg Rating</div>
             </div>
           </div>
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6 md:gap-8">
+          {catalogLoading && products.length === 0 && (
+            <div className="col-span-full text-center text-gray-400 py-16">Loading products…</div>
+          )}
+          {!catalogLoading && products.length === 0 && (
+            <div className="col-span-full text-center text-gray-400 py-16">
+              No products available. Start the API server and open the admin panel to seed the catalog.
+            </div>
+          )}
 
           {products.map((p, index) => (
             <div
               key={p.id}
+              id={`product-${productDomId(p.name)}`}
               className="group relative animate-fade-in-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -827,17 +531,18 @@ const Products = () => {
                   )}
 
                   {/* Price and CTA */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex flex-col">
-                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+                      <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 sm:text-2xl">
                         ₹{p.price}
                       </span>
                       <span className="text-xs text-gray-400">Starting from</span>
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => handleBookNow(p)}
-                      className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 hover:-rotate-1 overflow-hidden group/btn"
+                      className="relative w-full shrink-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-5 py-2.5 text-center text-sm font-semibold text-white rounded-2xl shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 hover:-rotate-1 overflow-hidden group/btn sm:w-auto sm:px-6 sm:py-3 sm:text-base"
                     >
                       <span className="relative z-10 flex items-center gap-2">
                         Book Now
@@ -859,8 +564,8 @@ const Products = () => {
 
       {/* FORM POPUP */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 p-4 animate-fade-in">
-          <div className="bg-white/10 backdrop-blur-2xl w-full max-w-md p-8 rounded-3xl shadow-2xl border border-white/20 transform animate-in fade-in-0 zoom-in-95 duration-500">
+        <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/80 p-0 backdrop-blur-md animate-fade-in sm:items-center sm:p-4">
+          <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur-2xl sm:rounded-3xl sm:p-8 transform animate-in fade-in-0 zoom-in-95 duration-500">
             {/* Animated border */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 rounded-3xl opacity-50 blur-sm animate-pulse"></div>
 
@@ -930,8 +635,8 @@ const Products = () => {
 
       {/* CALENDAR POPUP */}
       {showCalendar && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 p-4 animate-fade-in">
-          <div className="bg-white/10 backdrop-blur-2xl w-full max-w-5xl p-8 rounded-3xl shadow-2xl border border-white/20 transform animate-in fade-in-0 zoom-in-95 duration-500">
+        <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/80 p-0 backdrop-blur-md animate-fade-in sm:items-center sm:p-4">
+          <div className="max-h-[95dvh] w-full max-w-5xl overflow-y-auto rounded-t-3xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-2xl sm:rounded-3xl sm:p-8 transform animate-in fade-in-0 zoom-in-95 duration-500">
             {/* Animated border */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 rounded-3xl opacity-50 blur-sm animate-pulse"></div>
 

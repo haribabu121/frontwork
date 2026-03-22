@@ -3,6 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fixed header = marquee + nav; keep in sync with Navbar layout */
+:root {
+  --header-stack-h: 6.75rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --header-stack-h: 7rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-stack-h: 7.25rem;
+  }
+}
+
+.hero-min-height {
+  min-height: calc(100dvh - var(--header-stack-h));
+  min-height: calc(100svh - var(--header-stack-h));
+}
+
 
 
 
@@ -75,14 +97,7 @@ html, body {
   padding: 0;
 }
 
-/* Add this if you're using a container class */
-.container {
-  width: 100%;
-  max-width: 100%;
-  padding-left: 1.5rem;
-  padding-right: 1rem;
-  margin: 0 auto;
-}
+/* Tailwind `container` utility handles width/padding at breakpoints */
 
 /* Ensure all elements stay within viewport */
 * {

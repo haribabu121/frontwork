@@ -3,25 +3,25 @@ import { FaStar, FaFire, FaCalendarAlt, FaMagic, FaCertificate } from 'react-ico
 
 const About = () => {
   return (
-    <section id="about-us" className="relative overflow-hidden py-24 bg-gradient-to-br from-slate-950 via-indigo-950 to-black">
+    <section id="about-us" className="relative overflow-hidden py-12 sm:py-16 md:py-24 bg-gradient-to-br from-slate-950 via-indigo-950 to-black">
       <div className="absolute inset-0">
         <div className="absolute -top-28 -left-24 w-96 h-96 rounded-full bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-28 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-pink-500/20 via-orange-500/10 to-transparent blur-3xl animate-pulse delay-500"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_60%)]" />
       </div>
 
-      <div className="relative container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-pink-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-fade-in-up">
+      <div className="relative container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14 md:mb-16">
+          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-pink-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-fade-in-up sm:text-4xl md:text-5xl lg:text-6xl px-1">
             About <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">AK Events & Fireworks</span>
           </h2>
-          <p className="mt-6 max-w-3xl mx-auto text-lg text-slate-200 font-light leading-relaxed animate-fade-in-up delay-150">
+          <p className="mt-4 max-w-3xl mx-auto text-sm text-slate-200 font-light leading-relaxed animate-fade-in-up delay-150 sm:mt-6 sm:text-base md:text-lg px-1">
             We bring every celebration to life with premium pyrotechnic design, flawless execution, and the kind of wow-factor that becomes the talk of the town.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="relative rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden p-10 animate-fade-in-left">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+          <div className="relative rounded-2xl sm:rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden p-5 sm:p-8 md:p-10 animate-fade-in-left">
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent opacity-80" />
             <div className="relative z-10">
               <div className="flex items-start gap-4 mb-6">

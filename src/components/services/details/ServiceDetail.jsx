@@ -14,8 +14,8 @@ const ServiceDetail = ({
   buttonHoverColor = 'hover:bg-yellow-600'
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-16 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100dvh-var(--header-stack-h))] min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-10 sm:py-16 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full min-w-0">
         <div className="mb-8">
           <Link 
             to="/" 

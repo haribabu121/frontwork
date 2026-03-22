@@ -28,7 +28,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
+    <section className="relative hero-min-height flex items-center justify-center text-white overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
@@ -58,18 +58,19 @@ const Hero = () => {
       </div>
       
       {/* Content */}
-      <div className="container mx-auto px-6 z-10 text-center">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">
-  <span className="text-yellow-400">AK</span> Events & Fireworks
-</h1>
+      <div className="container mx-auto z-10 px-4 text-center sm:px-6">
+        <h1 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6 animate-fade-in px-1">
+          <span className="text-yellow-400">AK</span> Events & Fireworks
+        </h1>
 
-        <p className="text-xl md:text-2xl lg:text-2xl mb-10 max-w-3xl mx-auto font-light">
+        <p className="mb-8 max-w-3xl mx-auto px-1 text-base font-light leading-relaxed sm:mb-10 sm:text-lg md:text-xl lg:text-2xl">
           Igniting Your Special Moments with Spectacular Fireworks & Unforgettable Events
         </p>
         
-        <div className="flex flex-wrap justify-center gap-6">
-          <button 
-            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-lg hover:shadow-yellow-500/30"
+        <div className="flex w-full max-w-md flex-col gap-3 px-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-6">
+          <button
+            type="button"
+            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3.5 px-8 rounded-full text-base sm:w-auto sm:py-4 sm:px-10 sm:text-lg transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-lg hover:shadow-yellow-500/30"
             onClick={(e) => {
               e.preventDefault();
               setShowBookingForm(true);
@@ -78,8 +79,9 @@ const Hero = () => {
             Book Now
           </button>
           
-          <button 
-            className="bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-white/20"
+          <button
+            type="button"
+            className="w-full border-2 border-white bg-transparent py-3.5 px-8 text-base font-bold text-white rounded-full hover:bg-white hover:text-black transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-white/20 sm:w-auto sm:py-4 sm:px-10 sm:text-lg"
             onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Our Services
@@ -105,12 +107,13 @@ const Hero = () => {
 
       {/* Booking Form Modal */}
       {showBookingForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div 
+        <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto p-0 sm:items-center sm:p-4">
+          <div
             className="absolute inset-0 bg-black bg-opacity-50"
             onClick={() => setShowBookingForm(false)}
-          ></div>
-          <div className="relative z-10 w-full max-w-md mx-4">
+            aria-hidden="true"
+          />
+          <div className="relative z-10 mt-auto w-full max-h-[90dvh] max-w-md overflow-y-auto rounded-t-2xl sm:mt-0 sm:rounded-2xl sm:mx-4">
             <BookingForm onClose={() => setShowBookingForm(false)} />
           </div>
         </div>

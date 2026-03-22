@@ -17,9 +17,9 @@ const Footer = () => {
     }, 3000);
   };
   return (
-    <footer className="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-900 text-gray-400 py-10 sm:py-12 border-t border-gray-800">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 sm:gap-10">
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">AK Events & Fireworks</h3>
             <p className="text-sm">Creating magical moments with spectacular firework displays and professional event planning services.</p>

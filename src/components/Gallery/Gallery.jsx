@@ -4,85 +4,30 @@ import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from 'react-icons/fa';
 const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [galleryItems, setGalleryItems] = useState([]);
 
-  // Event gallery images with event-specific content
-  const galleryItems = [
-    {
-      id: 1,
-      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80',
-      title: 'New Year Celebration 2025',
-      description: 'Spectacular midnight fireworks display',
-      event: 'New Year Celebration'
-    },
-    {
-      id: 2,
-      image: 'https://c8.alamy.com/comp/2MPC9JP/visitors-watch-the-fireworks-display-during-a-new-year-celebration-event-at-the-hakkeijima-sea-paradise-aquarium-amusement-park-complex-in-yokohama-southwest-of-tokyo-monday-jan-1-2018-ap-photoshizuo-kambayashi-2MPC9JP.jpg',
-      title: 'New Year Fireworks',
-      description: 'Crowds gathered for the annual celebration',
-      event: 'New Year Celebration'
-    },
-    {
-      id: 3,
-      image: 'https://i.pinimg.com/originals/31/8e/74/318e7476fa76984b0685d3cde7511a39.jpg',
-      title: 'Midnight Spectacle',
-      description: 'Fireworks lighting up the night sky',
-      event: 'New Year Celebration'
-    },
-    {
-      id: 4,
-      image: 'https://i.pinimg.com/736x/ca/b9/f1/cab9f12141267677a4220eeb44af70ca.jpg',
-      title: 'Sankranthi Festival',
-      description: 'Traditional harvest festival celebrations',
-      event: 'Sankranthi Festival'
-    },
-    {
-      id: 5,
-      image: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=549&h=415&q=80',
-      title: 'Festival Rituals',
-      description: 'Cultural performances and traditions',
-      event: 'Sankranthi Festival'
-    },
-    {
-      id: 6,
-      image: 'https://i.pinimg.com/736x/92/cf/9b/92cf9b901a421471ee4b6f7b9055b8f7.jpg',
-      title: 'River Bank Celebrations',
-      description: 'Festive atmosphere by the Godavari river',
-      event: 'Sankranthi Festival'
-    },
-    {
-      id: 7,
-      image: 'https://www.sparkfx.com.au/wp-content/uploads/2019/01/3.jpg',
-      title: 'Wedding Fireworks',
-      description: 'Romantic wedding ceremony with fireworks',
-      event: 'Wedding Celebration'
-    },
-    {
-      id: 8,
-      image: 'https://flashfireworks.com.au/wp-content/uploads/2020/11/indoor-fireworks-wedding-background-1536x1026.jpg',
-      title: 'Bridal Entrance',
-      description: 'Magical entrance with custom fireworks',
-      event: 'Wedding Celebration'
-    },
-    {
-      id: 9,
-      image: 'https://media.istockphoto.com/id/2098903945/photo/the-bride-and-groom-on-the-wedding-ceremony-venue-with-fireworks-at-night.webp?a=1&b=1&s=612x612&w=0&k=20&c=tBkj3dAmiFhF03fTjDRAhItFa2Zd5vw3FdxfetZ8OYk=',
-      title: 'Reception Spectacle',
-      description: 'Grand reception with fireworks finale',
-      event: 'Wedding Celebration'
-    },
-    {
-      id: 10,
-      image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2074&q=80',
-      title: 'Corporate Event',
-      description: 'Professional fireworks for business events',
-      event: 'Corporate Event'
-    }
-  ];
+  useEffect(() => {
+    let cancelled = false;
+    const base = import.meta.env.VITE_API_URL || "";
+    fetch(`${base}/api/cms/gallery`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.ok) setGalleryItems(data.gallery || []);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [galleryItems.length]);
 
   // Auto-play functionality
   useEffect(() => {
     let interval;
-    if (isAutoPlaying) {
+    if (isAutoPlaying && galleryItems.length > 0) {
       interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
           prevIndex === galleryItems.length - 1 ? 0 : prevIndex + 1
@@ -93,10 +38,12 @@ const Gallery = () => {
   }, [isAutoPlaying, galleryItems.length]);
 
   const goToPrevious = () => {
+    if (!galleryItems.length) return;
     setCurrentIndex(currentIndex === 0 ? galleryItems.length - 1 : currentIndex - 1);
   };
 
   const goToNext = () => {
+    if (!galleryItems.length) return;
     setCurrentIndex(currentIndex === galleryItems.length - 1 ? 0 : currentIndex + 1);
   };
 
@@ -109,7 +56,7 @@ const Gallery = () => {
   };
 
   return (
-    <section id="gallery" className="py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <section id="gallery" className="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Primary gradient orbs */}
@@ -131,7 +78,7 @@ const Gallery = () => {
             {/* Glow effect behind title */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl scale-150"></div>
 
-            <h2 className="relative text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-200 mb-8 animate-fade-in-up">
+            <h2 className="relative text-3xl font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-purple-200 mb-6 animate-fade-in-up sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl sm:mb-8">
               Event
               <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
                 Gallery
@@ -145,23 +92,23 @@ const Gallery = () => {
             </div>
           </div>
 
-          <p className="text-gray-300 max-w-4xl mx-auto text-xl leading-relaxed font-light mt-8 animate-fade-in-up delay-200">
+          <p className="text-gray-300 max-w-4xl mx-auto text-sm leading-relaxed font-light mt-6 animate-fade-in-up delay-200 sm:text-base md:text-lg lg:text-xl px-1 sm:mt-8">
             Witness the magic we've created at unforgettable events. From spectacular New Year celebrations to intimate wedding moments,
             explore our portfolio of breathtaking fireworks displays.
           </p>
 
           {/* Stats */}
-          <div className="flex justify-center gap-12 mt-12 animate-fade-in-up delay-300">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-white">30+</div>
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-12 mt-8 sm:mt-12 animate-fade-in-up delay-300 px-2">
+            <div className="text-center min-w-[5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">30+</div>
               <div className="text-gray-400 text-sm">Events Covered</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-white">300+</div>
+            <div className="text-center min-w-[5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">300+</div>
               <div className="text-gray-400 text-sm">Photos Captured</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-white">2+</div>
+            <div className="text-center min-w-[5rem]">
+              <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">2+</div>
               <div className="text-gray-400 text-sm">Years of Magic</div>
             </div>
           </div>
@@ -169,7 +116,13 @@ const Gallery = () => {
 
         {/* Carousel Container */}
         <div className="relative max-w-6xl mx-auto">
+          {galleryItems.length === 0 && (
+            <div className="rounded-3xl border border-white/10 bg-white/5 py-24 text-center text-gray-400">
+              Gallery photos will appear here once the API is running and the catalog is loaded.
+            </div>
+          )}
           {/* Main Carousel */}
+          {galleryItems.length > 0 && (
           <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white/5 backdrop-blur-xl border border-white/10">
             <div
               className="flex transition-transform duration-700 ease-in-out"
@@ -177,7 +130,7 @@ const Gallery = () => {
             >
               {galleryItems.map((item, index) => (
                 <div key={item.id} className="min-w-full relative">
-                  <div className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+                  <div className="relative h-[min(52vh,28rem)] sm:h-[min(60vh,32rem)] md:h-[70vh] lg:h-[80vh] overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -187,15 +140,15 @@ const Gallery = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                     {/* Content overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-12">
                       <div className="max-w-4xl">
-                        <div className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        <div className="mb-2 inline-block rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 text-xs font-semibold text-white sm:mb-3 sm:px-4 sm:py-2 sm:text-sm">
                           {item.event}
                         </div>
-                        <h3 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                        <h3 className="text-xl font-bold leading-tight text-white mb-2 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl sm:mb-3 md:mb-4">
                           {item.title}
                         </h3>
-                        <p className="text-xl text-gray-200 leading-relaxed">
+                        <p className="text-sm text-gray-200 leading-relaxed line-clamp-3 sm:line-clamp-none sm:text-base md:text-lg lg:text-xl">
                           {item.description}
                         </p>
                       </div>
@@ -207,28 +160,36 @@ const Gallery = () => {
 
             {/* Navigation Arrows */}
             <button
+              type="button"
               onClick={goToPrevious}
-              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-xl hover:bg-white/20 text-white p-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-purple-500/25 border border-white/20"
+              className="absolute left-1 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-2 text-white shadow-lg backdrop-blur-xl transition-all hover:bg-white/20 sm:left-3 sm:p-3 md:left-6 md:p-4"
+              aria-label="Previous slide"
             >
-              <FaChevronLeft className="text-xl" />
+              <FaChevronLeft className="text-base sm:text-lg md:text-xl" />
             </button>
             <button
+              type="button"
               onClick={goToNext}
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-xl hover:bg-white/20 text-white p-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-purple-500/25 border border-white/20"
+              className="absolute right-1 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-2 text-white shadow-lg backdrop-blur-xl transition-all hover:bg-white/20 sm:right-3 sm:p-3 md:right-6 md:p-4"
+              aria-label="Next slide"
             >
-              <FaChevronRight className="text-xl" />
+              <FaChevronRight className="text-base sm:text-lg md:text-xl" />
             </button>
 
             {/* Auto-play toggle */}
             <button
+              type="button"
               onClick={toggleAutoPlay}
-              className="absolute top-6 right-6 bg-white/10 backdrop-blur-xl hover:bg-white/20 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-purple-500/25 border border-white/20"
+              className="absolute right-1 top-2 z-10 rounded-full border border-white/20 bg-white/10 p-2 text-white shadow-lg backdrop-blur-xl transition-all hover:bg-white/20 sm:right-3 sm:top-4 sm:p-2.5 md:right-6 md:top-6 md:p-3"
+              aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
             >
               {isAutoPlaying ? <FaPause className="text-sm" /> : <FaPlay className="text-sm" />}
             </button>
           </div>
+          )}
 
           {/* Progress Indicators */}
+          {galleryItems.length > 0 && (
           <div className="flex justify-center gap-2 mt-6">
             {galleryItems.map((_, index) => (
               <button
@@ -242,6 +203,7 @@ const Gallery = () => {
               />
             ))}
           </div>
+          )}
         </div>
       </div>
 

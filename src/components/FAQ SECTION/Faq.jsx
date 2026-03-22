@@ -49,7 +49,7 @@ class FAQSection extends Component {
     const { openIndex } = this.state;
 
     return (
-      <div id="faq" className="relative flex items-center justify-between gap-12 px-[6%] py-16 bg-white overflow-hidden flex-wrap lg:flex-nowrap scroll-mt-24">
+      <div id="faq" className="relative flex flex-wrap items-center justify-between gap-8 px-4 py-12 bg-white overflow-hidden sm:gap-10 sm:px-6 sm:py-14 md:px-8 lg:gap-12 lg:px-[6%] lg:py-16 lg:flex-nowrap scroll-mt-24">
 
         {/* Background Circles */}
         <div className="absolute top-10 left-10 w-24 h-24 bg-sky-200 rounded-full blur-3xl opacity-40"></div>
@@ -62,11 +62,11 @@ class FAQSection extends Component {
             Untangle Your Queries
           </div>
 
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3 sm:text-3xl">
             Frequently Asked Questions
           </h2>
 
-          <p className="text-gray-600 leading-relaxed mb-6 max-w-xl">
+          <p className="text-gray-600 text-sm leading-relaxed mb-6 max-w-xl sm:text-base">
             Find answers to all your questions, learn about our software, its
             working and other related information instantly.
           </p>
@@ -100,11 +100,11 @@ class FAQSection extends Component {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-2/5 flex justify-center relative z-10 order-0 lg:order-none mb-10 lg:mb-0">
+        <div className="order-0 relative z-10 mb-8 flex w-full justify-center lg:order-none lg:mb-0 lg:w-2/5">
           <img
             src="https://empmonitor.com/wp-content/uploads/2024/06/Frame-2062.webp"
-            alt="EmpMonitor illustration"
-            className="w-[350px] lg:w-[450px] rounded-xl object-cover transition-transform hover:scale-105"
+            alt="FAQ illustration"
+            className="h-auto w-full max-w-[min(100%,22rem)] rounded-xl object-cover transition-transform hover:scale-105 sm:max-w-sm lg:max-w-md xl:max-w-lg"
           />
         </div>
       </div>

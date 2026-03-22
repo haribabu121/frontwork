@@ -97,7 +97,7 @@ const TeamMember = ({ member }) => {
 
 const ExecutiveTeam = () => {
   return (
-    <section id="executive-team" className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
+    <section id="executive-team" className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-32 h-32 bg-blue-400 rounded-full blur-3xl"></div>
@@ -107,16 +107,16 @@ const ExecutiveTeam = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-14 md:mb-16 px-1">
           <div className="group">
-            <h2 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-6 group-hover:from-pink-600 group-hover:via-purple-600 group-hover:to-blue-600 transition-all duration-500">
+            <h2 className="text-3xl font-extrabold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4 group-hover:from-pink-600 group-hover:via-purple-600 group-hover:to-blue-600 transition-all duration-500 sm:text-4xl md:text-5xl sm:mb-6">
               Executive Team
             </h2>
             <div className="group relative">
-              <div className="w-32 h-2 mx-auto mb-8 transform origin-center transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full"></div>
+              <div className="w-24 sm:w-32 h-1.5 sm:h-2 mx-auto mb-6 sm:mb-8 transform origin-center transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full"></div>
             </div>
           </div>
-          <p className="text-gray-700 max-w-3xl mx-auto text-lg leading-relaxed font-medium">
+          <p className="text-gray-700 max-w-3xl mx-auto text-sm leading-relaxed font-medium sm:text-base md:text-lg">
             With more than two decades of expertise in the IT sector, our
             executive leadership team provides strategic direction and
             proven industry insight to drive innovation and excellence.
@@ -124,7 +124,7 @@ const ExecutiveTeam = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 max-w-7xl mx-auto">
           {teamMembers.map((member, index) => (
             <TeamMember key={index} member={member} />
           ))}

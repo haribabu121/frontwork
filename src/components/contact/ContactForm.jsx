@@ -74,14 +74,14 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="py-10 sm:py-16 md:py-20 bg-gray-50">
+      <div className="max-w-3xl mx-auto w-full min-w-0 px-4 sm:px-6">
         {/* Add a hidden subject field */}
         <input type="hidden" name="subject" value={formData.subject} />
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
+        <div className="text-center mb-8 sm:mb-12 px-1">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3 sm:text-3xl md:text-4xl sm:mb-4">Contact Us</h2>
           <div className="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
-          <p className="text-gray-600">Fill out the form below and we'll get back to you as soon as possible.</p>
+          <p className="text-gray-600 text-sm sm:text-base">Fill out the form below and we&apos;ll get back to you as soon as possible.</p>
         </div>
 
         {submitStatus === 'success' ? (
@@ -96,7 +96,7 @@ const ContactForm = () => {
           </div>
         ) : null}
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg">
+        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Full Name <span className="text-red-500">*</span>

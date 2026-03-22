@@ -7,11 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://workend-at05t93jn-haribabu121s-projects.vercel.app',
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
+      },
+    },
+  },
 })

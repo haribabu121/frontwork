@@ -51,23 +51,23 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-8 bg-gray-900 text-white">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-8 sm:py-12 bg-gray-900 text-white">
+      <div className="container mx-auto px-4 sm:px-6">
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold mb-4 group-hover:text-yellow-500 transition-colors duration-300">
+        <div className="text-center mb-6 sm:mb-8 px-1">
+          <h2 className="text-2xl font-bold mb-3 transition-colors duration-300 sm:text-3xl md:text-4xl sm:mb-4">
             Get In Touch
           </h2>
           <div className="w-24 h-1.5 mx-auto bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
-            <p className="text-gray-300 mb-6">
+          <div className="min-w-0">
+            <h3 className="text-xl font-semibold mb-4 sm:text-2xl sm:mb-6">Contact Information</h3>
+            <p className="text-gray-300 mb-5 text-sm sm:text-base sm:mb-6">
               Ready to light up your next event? Contact us today to discuss your requirements!
             </p>
 

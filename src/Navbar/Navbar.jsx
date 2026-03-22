@@ -41,15 +41,39 @@ import { GiSparkles, GiFlowers, GiFireworkRocket } from "react-icons/gi";
 
 import Logo from './Logo.png';
 
+const DEFAULT_BANNER =
+  "✨ Book now and get 10% off on all services! Limited time offer: Free decoration with every booking! ✨";
+
 const MarqueeText = () => {
-  const announcement = "✨ Book now and get 10% off on all services! Limited time offer: Free decoration with every booking! ✨";
-  
+  const [announcement, setAnnouncement] = useState(DEFAULT_BANNER);
+
+  useEffect(() => {
+    let cancelled = false;
+    const base = import.meta.env.VITE_API_URL || "";
+    const load = () => {
+      fetch(`${base}/api/cms/banner`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!cancelled && data.ok && data.banner?.text?.trim()) {
+            setAnnouncement(data.banner.text.trim());
+          }
+        })
+        .catch(() => {});
+    };
+    load();
+    const t = setInterval(load, 60000);
+    return () => {
+      cancelled = true;
+      clearInterval(t);
+    };
+  }, []);
+
   return (
-    <div className="bg-yellow-500 text-black py-2 overflow-hidden w-full z-50 relative">
+    <div className="bg-yellow-500 text-black py-1.5 sm:py-2 overflow-hidden w-full z-50 relative">
       <div className="whitespace-nowrap w-full">
         <div className="inline-block whitespace-nowrap animate-marquee">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="mx-8 font-medium">
+            <span key={i} className="mx-4 sm:mx-8 text-xs sm:text-sm font-medium">
               {announcement}
             </span>
           ))}
@@ -77,10 +101,10 @@ const MarqueeText = () => {
 
 const Navbar = () => {
   return (
-    <div className="fixed top-0 left-0 w-full z-40">
+    <header className="site-header fixed top-0 left-0 right-0 z-40 flex w-full flex-col bg-white shadow-md">
       <MarqueeText />
       <NavbarContent />
-    </div>
+    </header>
   );
 };
 
@@ -115,7 +139,7 @@ const NavbarContent = () => {
   };
 
   const scrollToSection = (sectionId, closeMenu = true) => {
-    const headerOffset = isDesktop ? 140 : 110;
+    const headerOffset = isDesktop ? 148 : 120;
     const performScroll = (attempt = 0) => {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -325,29 +349,15 @@ const NavbarContent = () => {
   }, [location.state]);
 
   return (
-    <>
-      {/* Top Navbar */}
-      {/* <div className="bg-slate-900 px-6 md:px-10 py-2 text-slate-300 flex justify-end gap-6 text-sm font-medium">
-        <button className="flex items-center gap-2 hover:text-white" onClick={handleCurrentOpeningsClick}>
-          <FaUserTie /> Current Openings
-        </button>
-        <button className="flex items-center gap-2 hover:text-white" onClick={() => window.open("https://byteskillstech.com/internship.html#internship")}>
-          <FaUserGraduate /> Enroll Internship
-        </button>
-        <button className="flex items-center gap-2 hover:text-white" onClick={() => window.open("https://ulearn.pinkmoontech.com/")}>
-          <FaChalkboardTeacher /> ULearn Platform
-        </button>
-      </div> */}
-      <nav className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-2">
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
+    <nav className="relative w-full border-b border-gray-200 bg-white px-3 sm:px-6 lg:px-8 py-2 z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 min-h-[3.25rem] sm:min-h-16 relative">
           {/* Logo */}
-          <div className="h-12 flex items-center">
-            <Link to="/">
-              <img 
-                src={Logo} 
-                alt="AK Events & Fireworks" 
-                className="w-auto hover:scale-105 transition-transform"
-                style={{ height: '90px', width: 'auto' }}
+          <div className="flex h-10 sm:h-12 shrink-0 items-center max-w-[42vw] sm:max-w-none">
+            <Link to="/" className="block leading-none">
+              <img
+                src={Logo}
+                alt="AK Events & Fireworks"
+                className="h-9 w-auto max-h-10 sm:h-11 sm:max-h-12 md:max-h-[3.25rem] object-contain object-left hover:scale-105 transition-transform"
               />
             </Link>
           </div>
@@ -358,11 +368,12 @@ const NavbarContent = () => {
           </div>
           
           {/* Mobile Menu Button - Positioned on the right */}
-          <div className="lg:hidden">
-            <button 
+          <div className="lg:hidden shrink-0">
+            <button
+              type="button"
               onClick={toggleMenu}
-              className="text-gray-700 hover:text-green-600 focus:outline-none"
-              style={{ fontSize: '1.5rem', lineHeight: '1' }}
+              className="rounded-lg p-2 text-2xl leading-none text-gray-700 hover:bg-gray-100 hover:text-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+              aria-expanded={menuOpen}
               aria-label="Toggle menu"
             >
               {menuOpen ? "✕" : "☰"}
@@ -370,15 +381,19 @@ const NavbarContent = () => {
           </div>
 
           {/* Menu */}
-          <ul className={`lg:flex lg:items-center lg:gap-8 text-sm font-small transition-all pr-4 z-50
-            ${menuOpen ? "flex flex-col absolute left-0 top-16 w-full bg-white shadow-lg p-6 gap-4" : "hidden lg:flex"}`}
-            style={{ zIndex: 1001 }}
+          <ul
+            className={`text-sm font-small z-[1001] lg:flex lg:items-center lg:gap-6 xl:gap-8 lg:static lg:w-auto lg:max-h-none lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none
+            ${
+              menuOpen
+                ? "flex flex-col absolute left-0 right-0 top-full w-full max-h-[min(72vh,calc(100dvh-var(--header-stack-h)))] overflow-y-auto border-t border-gray-100 bg-white p-4 shadow-lg gap-1 sm:gap-2 sm:p-6"
+                : "hidden lg:flex"
+            }`}
           >
 
           {/* Home */}
-          <Link 
-            to="/" 
-            className={`flex items-center gap-2 cursor-pointer ${location.pathname === '/' ? 'text-green-600' : 'hover:text-green-600'}`}
+          <Link
+            to="/"
+            className={`flex items-center gap-2 cursor-pointer rounded-lg py-2.5 lg:py-1 ${location.pathname === "/" ? "text-green-600" : "hover:text-green-600"}`}
           >
             <FaHome /> Home
           </Link>
@@ -396,10 +411,10 @@ const NavbarContent = () => {
             </div>
 
             {/* Dropdown */}
-            <ul className={`absolute bg-white shadow-xl rounded-lg p-2 w-56 mt-2 transition-all z-50
-              ${showAbout ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-3"}
-              lg:absolute lg:left-0`}
-              style={{ zIndex: 1002, maxHeight: 'calc(100vh - 80px)', overflowY: 'auto' }}
+            <ul
+              className={`mt-1 rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 w-full lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:border-0
+              ${showAbout ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
+              style={{ zIndex: 1002, maxHeight: "min(60vh, 20rem)", overflowY: "auto" }}
             >
               <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToSection("about-us")}>
                 <FaInfoCircle /> About Us
@@ -432,9 +447,10 @@ const NavbarContent = () => {
             </div>
 
             {/* Dropdown */}
-            <ul className={`absolute bg-white shadow-xl p-2 w-60 rounded-lg mt-2 transition-all z-50
-              ${showProducts ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-3"}`}
-              style={{ zIndex: 1002, maxHeight: 'calc(100vh - 80px)', overflowY: 'auto' }}
+            <ul
+              className={`mt-1 w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:mt-2 lg:w-60 lg:border-0
+              ${showProducts ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
+              style={{ zIndex: 1002, maxHeight: "min(55vh, 22rem)", overflowY: "auto" }}
             >
               <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToProductCard("sparkcular-machines")}>
                 <FaFireAlt className="text-orange-500" /> sparkcular machines
@@ -487,9 +503,10 @@ const NavbarContent = () => {
               />
             </div>
 
-            <ul className={`absolute bg-white shadow-xl p-2 w-64 rounded-lg mt-2 transition-all z-50
-              ${showServices ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-3"}`}
-              style={{ zIndex: 1002, maxHeight: 'calc(100vh - 80px)', overflowY: 'auto' }}
+            <ul
+              className={`mt-1 w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:mt-2 lg:w-64 lg:border-0
+              ${showServices ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
+              style={{ zIndex: 1002, maxHeight: "min(55vh, 24rem)", overflowY: "auto" }}
             >
               <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToServiceCard("cloud-effects")}>
                 <FaCloud className="text-blue-400" /> Cloud Effects
@@ -527,7 +544,10 @@ const NavbarContent = () => {
           </li> */}
 
           {/* Contact */}
-          <Link to="/contact" className="flex items-center gap-2 hover:text-green-600 cursor-pointer">
+          <Link
+            to="/contact"
+            className="flex items-center gap-2 rounded-lg py-2.5 hover:text-green-600 cursor-pointer lg:py-1"
+          >
             <FaPhoneAlt /> Contact Us
           </Link>
 
@@ -538,7 +558,6 @@ const NavbarContent = () => {
           </ul>
         </div>
       </nav>
-    </>
   );
 };
 

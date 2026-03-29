@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { clearToken, getToken } from "./adminAuth";
-import { API_BASE } from "../lib/api";
+import { API_URLS } from "../lib/api";
 
 const linkClass = ({ isActive }) =>
   `block rounded-lg px-4 py-3 text-sm font-medium transition-colors md:py-2.5 ${
@@ -24,7 +24,7 @@ const AdminLayout = () => {
       const token = getToken();
       if (!token) return;
       try {
-        const res = await fetch(`${API_BASE}/api/admin/me`, {
+        const res = await fetch(API_URLS.ADMIN_ME, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok && !cancelled) {

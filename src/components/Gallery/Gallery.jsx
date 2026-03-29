@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from 'react-icons/fa';
+import { API_URLS, fetchApi } from "../../lib/api";
 
 const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -8,9 +9,7 @@ const Gallery = () => {
 
   useEffect(() => {
     let cancelled = false;
-    const base = import.meta.env.VITE_API_URL || "";
-    fetch(`${base}/api/cms/gallery`)
-      .then((r) => r.json())
+    fetchApi(API_URLS.CMS_GALLERY)
       .then((data) => {
         if (!cancelled && data.ok) setGalleryItems(data.gallery || []);
       })

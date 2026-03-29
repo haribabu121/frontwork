@@ -4,6 +4,7 @@ import {
   FaFacebook, FaWhatsapp, FaInstagram, FaYoutube 
 } from 'react-icons/fa';
 import axios from 'axios';
+import { API_URLS } from '../../lib/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/contact',
+        API_URLS.CONTACT,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

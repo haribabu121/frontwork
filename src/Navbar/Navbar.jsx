@@ -38,6 +38,7 @@ import {
   FaWind
 } from "react-icons/fa";
 import { GiSparkles, GiFlowers, GiFireworkRocket } from "react-icons/gi";
+import { API_URLS, fetchApi } from "../lib/api";
 
 import Logo from './Logo.png';
 
@@ -49,10 +50,8 @@ const MarqueeText = () => {
 
   useEffect(() => {
     let cancelled = false;
-    const base = import.meta.env.VITE_API_URL || "";
     const load = () => {
-      fetch(`${base}/api/cms/banner`)
-        .then((r) => r.json())
+      fetchApi(API_URLS.CMS_BANNER)
         .then((data) => {
           if (!cancelled && data.ok && data.banner?.text?.trim()) {
             setAnnouncement(data.banner.text.trim());

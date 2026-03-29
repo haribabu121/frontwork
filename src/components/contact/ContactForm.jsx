@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URLS } from '../../lib/api';
 
 const ContactForm = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ContactForm = () => {
     
     try {
       // Make API call to submit the form
-      const response = await axios.post('http://localhost:5000/api/connect', formData, {
+      const response = await axios.post(API_URLS.CONNECT, formData, {
         headers: {
           'Content-Type': 'application/json',
         },

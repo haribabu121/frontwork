@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { API_BASE } from "../lib/api";
+import { API_URLS } from "../lib/api";
 import { setToken, getToken } from "./adminAuth";
 
 const AdminLogin = () => {
@@ -21,7 +21,7 @@ const AdminLogin = () => {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/admin/login`, {
+      const res = await fetch(API_URLS.ADMIN_LOGIN, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

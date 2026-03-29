@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaStar, FaArrowRight, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
+import { API_URLS, fetchApi } from "../../lib/api";
 import { format, parse, startOfWeek, getDay, isSameDay } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
 import emailjs from "emailjs-com";
@@ -252,9 +253,7 @@ const Products = () => {
 
   useEffect(() => {
     let cancelled = false;
-    const base = import.meta.env.VITE_API_URL || "";
-    fetch(`${base}/api/cms/products`)
-      .then((r) => r.json())
+    fetchApi(API_URLS.CMS_PRODUCTS)
       .then((data) => {
         if (!cancelled && data.ok) setProducts(data.products || []);
       })

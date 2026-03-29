@@ -64,12 +64,14 @@ const MarqueeText = () => {
     const refreshHandler = () => {
       load();
     };
-    window.addEventListener("cmsDataUpdated", refreshHandler);
+    window.addEventListener("storage", (e) => {
+      if (e.key === "cmsUpdated") load();
+    });
     const t = setInterval(load, 60000);
     return () => {
       cancelled = true;
       clearInterval(t);
-      window.removeEventListener("cmsDataUpdated", refreshHandler);
+      window.removeEventListener("storage", refreshHandler);
     };
   }, []);
 

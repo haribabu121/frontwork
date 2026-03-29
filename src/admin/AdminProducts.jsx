@@ -89,6 +89,7 @@ const AdminProducts = () => {
       setShowForm(false);
       await load();
       window.dispatchEvent(new Event("cmsDataUpdated"));
+      localStorage.setItem("cmsUpdated", Date.now());
     } catch (err) {
       setError(err.message);
     } finally {
@@ -106,6 +107,7 @@ const AdminProducts = () => {
       setProducts((prev) => prev.map((item) => (item.id === p.id ? { ...item, active } : item)));
       await load();
       window.dispatchEvent(new Event("cmsDataUpdated"));
+      localStorage.setItem("cmsUpdated", Date.now());
     } catch (e) {
       setError(e.message);
     }

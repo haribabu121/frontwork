@@ -53,6 +53,7 @@ const AdminGallery = () => {
       setItems(nextItems);
       await load();
       window.dispatchEvent(new Event("cmsDataUpdated"));
+      localStorage.setItem("cmsUpdated", Date.now());
     } catch (e) {
       setError(e.message);
     } finally {

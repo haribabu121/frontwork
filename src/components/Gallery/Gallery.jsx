@@ -22,12 +22,14 @@ const Gallery = () => {
       load();
     };
 
-    window.addEventListener("cmsDataUpdated", refreshHandler);
+    window.addEventListener("storage", (e) => {
+      if (e.key === "cmsUpdated") load();
+    });
     const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
       clearInterval(interval);
-      window.removeEventListener("cmsDataUpdated", refreshHandler);
+      window.removeEventListener("storage", refreshHandler);
     };
   }, []);
 

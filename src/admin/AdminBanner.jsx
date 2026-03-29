@@ -37,6 +37,7 @@ const AdminBanner = () => {
       });
       setOk("Banner updated. Refresh the main site to see changes.");
       window.dispatchEvent(new Event("cmsDataUpdated"));
+      localStorage.setItem("cmsUpdated", Date.now());
     } catch (err) {
       setError(err.message);
     } finally {

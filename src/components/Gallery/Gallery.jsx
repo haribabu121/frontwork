@@ -9,13 +9,18 @@ const Gallery = () => {
 
   useEffect(() => {
     let cancelled = false;
-    fetchApi(API_URLS.CMS_GALLERY)
-      .then((data) => {
-        if (!cancelled && data.ok) setGalleryItems(data.gallery || []);
-      })
-      .catch(() => {});
+    const load = () => {
+      fetchApi(API_URLS.CMS_GALLERY)
+        .then((data) => {
+          if (!cancelled && data.ok) setGalleryItems(data.gallery || []);
+        })
+        .catch(() => {});
+    };
+    load();
+    const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, []);
 

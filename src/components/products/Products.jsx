@@ -253,16 +253,25 @@ const Products = () => {
 
   useEffect(() => {
     let cancelled = false;
-    fetchApi(API_URLS.CMS_PRODUCTS)
-      .then((data) => {
-        if (!cancelled && data.ok) setProducts(data.products || []);
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setCatalogLoading(false);
-      });
+    let isFirstLoad = true;
+    const load = () => {
+      fetchApi(API_URLS.CMS_PRODUCTS)
+        .then((data) => {
+          if (!cancelled && data.ok) setProducts(data.products || []);
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (!cancelled && isFirstLoad) {
+            setCatalogLoading(false);
+            isFirstLoad = false;
+          }
+        });
+    };
+    load();
+    const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, []);
 

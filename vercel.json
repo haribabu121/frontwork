@@ -3,6 +3,16 @@
     {
       "source": "/api/(.*)",
       "destination": "https://workends.vercel.app/api/$1"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/admin/index.html"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/admin/(.*)",
+      "dest": "/index.html"
     }
   ]
 }

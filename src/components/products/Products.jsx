@@ -268,10 +268,17 @@ const Products = () => {
         });
     };
     load();
+
+    const refreshHandler = () => {
+      load();
+    };
+
+    window.addEventListener("cmsDataUpdated", refreshHandler);
     const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
       clearInterval(interval);
+      window.removeEventListener("cmsDataUpdated", refreshHandler);
     };
   }, []);
 

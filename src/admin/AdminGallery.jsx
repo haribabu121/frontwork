@@ -37,18 +37,22 @@ const AdminGallery = () => {
   };
 
   const removeRow = (index) => {
-    setItems((prev) => prev.filter((_, i) => i !== index));
+    const next = items.filter((_, i) => i !== index);
+    setItems(next);
+    saveAll(next);
   };
 
-  const saveAll = async () => {
+  const saveAll = async (nextItems = items) => {
     setSaving(true);
     setError("");
     try {
       await fetchAdmin("/api/admin/gallery", {
         method: "PUT",
-        body: JSON.stringify({ gallery: items }),
+        body: JSON.stringify({ gallery: nextItems }),
       });
+      setItems(nextItems);
       await load();
+      window.dispatchEvent(new Event("cmsDataUpdated"));
     } catch (e) {
       setError(e.message);
     } finally {

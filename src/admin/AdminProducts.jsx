@@ -4,7 +4,7 @@ import { fetchAdmin } from "../lib/api";
 const emptyForm = {
   name: "",
   price: "",
-  rating: "4.7",
+  rating: "",
   description: "",
   image: "",
   featuresText: "",
@@ -88,6 +88,7 @@ const AdminProducts = () => {
       setForm(emptyForm);
       setShowForm(false);
       await load();
+      window.dispatchEvent(new Event("cmsDataUpdated"));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -102,7 +103,9 @@ const AdminProducts = () => {
         method: "PATCH",
         body: JSON.stringify({ active }),
       });
+      setProducts((prev) => prev.map((item) => (item.id === p.id ? { ...item, active } : item)));
       await load();
+      window.dispatchEvent(new Event("cmsDataUpdated"));
     } catch (e) {
       setError(e.message);
     }

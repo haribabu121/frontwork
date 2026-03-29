@@ -60,10 +60,16 @@ const MarqueeText = () => {
         .catch(() => {});
     };
     load();
+
+    const refreshHandler = () => {
+      load();
+    };
+    window.addEventListener("cmsDataUpdated", refreshHandler);
     const t = setInterval(load, 60000);
     return () => {
       cancelled = true;
       clearInterval(t);
+      window.removeEventListener("cmsDataUpdated", refreshHandler);
     };
   }, []);
 

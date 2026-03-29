@@ -36,6 +36,7 @@ const AdminBanner = () => {
         body: JSON.stringify({ text }),
       });
       setOk("Banner updated. Refresh the main site to see changes.");
+      window.dispatchEvent(new Event("cmsDataUpdated"));
     } catch (err) {
       setError(err.message);
     } finally {

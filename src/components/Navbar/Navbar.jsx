@@ -509,8 +509,8 @@ const NavbarContent = () => {
               {/* <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToServiceCard("data-engineering")}>
                 <FaDatabase /> Data Engineering
               </li>
-              <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToServiceCard("production-support")}>
-                <FaTools /> Production Support
+              <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToServiceCard("event-support")}>
+                <FaTools /> Event Support
               </li>
               <li className="p-2 hover:bg-green-100 flex items-center gap-2" onClick={() => scrollToServiceCard("software-engineering")}>
                 <FaServer /> Software Engineering

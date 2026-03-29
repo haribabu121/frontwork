@@ -23,7 +23,7 @@ const teamMembers = [
   },
   {
     name: "Chaitanya",
-    title: "Production & Logistics Manager",
+    title: "Operations & Logistics Manager",
     image: "https://png.pngtree.com/png-vector/20241113/ourlarge/pngtree-professional-woman-using-laptop-png-image_14418003.png",
     linkedin: "#",
   },

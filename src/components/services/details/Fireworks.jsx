@@ -33,7 +33,7 @@ const Fireworks = () => {
   return (
     <ServiceDetail
       title="High-Impact Fireworks"
-      description="Light up the sky with our breathtaking fireworks displays. From intimate gatherings to large-scale productions, we create custom pyrotechnic shows that leave lasting impressions."
+      description="Light up the sky with our breathtaking fireworks displays. From intimate gatherings to large-scale events, we create custom pyrotechnic shows that leave lasting impressions."
       features={features}
       idealFor={idealFor}
       icon={FaFire}

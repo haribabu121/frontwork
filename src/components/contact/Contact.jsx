@@ -9,6 +9,7 @@ import { API_URLS } from '../../lib/api';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
+    phone: '',
     email: '',
     subject: '',
     message: ''
@@ -39,7 +40,7 @@ const Contact = () => {
 
       if (response.data.success) {
         setSubmitStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setFormData({ name: "", phone: "", email: "", subject: "", message: "" });
       } else {
         setSubmitStatus("error");
       }
@@ -152,6 +153,13 @@ const Contact = () => {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                  <input type="tel" id="phone" required
+                    value={formData.phone} onChange={handleChange}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-md" />
+                </div>
+
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
                   <input type="email" id="email" required
                     value={formData.email} onChange={handleChange}

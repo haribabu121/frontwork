@@ -110,7 +110,7 @@ const ExecutiveTeam = () => {
         <div className="text-center mb-10 sm:mb-14 md:mb-16 px-1">
           <div className="group">
             <h2 className="text-3xl font-extrabold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4 group-hover:from-pink-600 group-hover:via-purple-600 group-hover:to-blue-600 transition-all duration-500 sm:text-4xl md:text-5xl sm:mb-6">
-              Executive Team
+              Executive Members
             </h2>
             <div className="group relative">
               <div className="w-24 sm:w-32 h-1.5 sm:h-2 mx-auto mb-6 sm:mb-8 transform origin-center transition-all duration-500 group-hover:scale-x-125 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full"></div>

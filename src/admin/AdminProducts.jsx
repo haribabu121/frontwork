@@ -18,7 +18,9 @@ const AdminProducts = () => {
   const [editProduct, setEditProduct] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [changingActiveId, setChangingActiveId] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [ok, setOk] = useState("");
 
   const load = useCallback(async () => {
     setError("");
@@ -84,6 +86,7 @@ const AdminProducts = () => {
           body: JSON.stringify(body),
         });
       }
+      setOk(editProduct ? "Product updated." : "Product added.");
       setEditProduct(null);
       setForm(emptyForm);
       setShowForm(false);
@@ -99,17 +102,21 @@ const AdminProducts = () => {
 
   const setActive = async (p, active) => {
     setError("");
+    setChangingActiveId(p.id);
     try {
       await fetchAdmin(`/api/admin/products/${p.id}/active`, {
         method: "PATCH",
         body: JSON.stringify({ active }),
       });
-      setProducts((prev) => prev.map((item) => (item.id === p.id ? { ...item, active } : item)));
+      setOk(active ? "Product activated." : "Product deactivated.");
+      // Refresh from server so state is authoritative and stable
       await load();
       window.dispatchEvent(new Event("cmsDataUpdated"));
       localStorage.setItem("cmsUpdated", Date.now());
     } catch (e) {
       setError(e.message);
+    } finally {
+      setChangingActiveId(null);
     }
   };
 
@@ -130,6 +137,7 @@ const AdminProducts = () => {
       </div>
 
       {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+      {ok && <p className="text-emerald-400 text-sm mb-4">{ok}</p>}
       {loading && <p className="text-slate-400">Loading…</p>}
 
       {showForm && (
@@ -226,7 +234,12 @@ const AdminProducts = () => {
             <div className="min-w-0 flex-1">
               <div className="font-medium text-white">{p.name}</div>
               <div className="text-xs text-slate-500">
-                ₹{p.price} · {p.active === false ? <span className="text-amber-400">Hidden on site</span> : <span className="text-emerald-400">Live</span>}
+                ₹{p.price} 
+              </div>
+              <div className="mt-1 text-xs">
+                <span className={p.active === false ? "rounded px-1.5 py-0.5 bg-amber-500/20 text-amber-200" : "rounded px-1.5 py-0.5 bg-emerald-500/20 text-emerald-200"}>
+                  {p.active === false ? "Inactive" : "Active"}
+                </span>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 sm:justify-end">
@@ -248,17 +261,19 @@ const AdminProducts = () => {
                 <button
                   type="button"
                   onClick={() => setActive(p, true)}
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600/80 text-sm text-white"
+                  disabled={changingActiveId === p.id}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-600/80 text-sm text-white disabled:opacity-50"
                 >
-                  Activate
+                  {changingActiveId === p.id ? "Activating…" : "Activate"}
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => setActive(p, false)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-600 text-sm text-white"
+                  disabled={changingActiveId === p.id}
+                  className="px-3 py-1.5 rounded-lg bg-slate-600 text-sm text-white disabled:opacity-50"
                 >
-                  Deactivate
+                  {changingActiveId === p.id ? "Deactivating…" : "Deactivate"}
                 </button>
               )}
             </div>

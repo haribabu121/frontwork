@@ -18,18 +18,19 @@ const Gallery = () => {
     };
     load();
 
-    const refreshHandler = () => {
-      load();
-    };
-
-    window.addEventListener("storage", (e) => {
+    const onStorage = (e) => {
       if (e.key === "cmsUpdated") load();
-    });
+    };
+    const onCmsDataUpdated = () => load();
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("cmsDataUpdated", onCmsDataUpdated);
     const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
       clearInterval(interval);
-      window.removeEventListener("storage", refreshHandler);
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("cmsDataUpdated", onCmsDataUpdated);
     };
   }, []);
 

@@ -7,7 +7,8 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     let alive = true;
-    (async () => {
+
+    const reload = async () => {
       try {
         const [p, g] = await Promise.all([
           fetchAdmin("/api/admin/products"),
@@ -25,9 +26,22 @@ const AdminDashboard = () => {
       } catch (e) {
         if (alive) setErr(e.message);
       }
-    })();
+    };
+
+    reload();
+
+    const onStorage = (event) => {
+      if (event.key === "cmsUpdated") reload();
+    };
+    const onCmsDataUpdated = () => reload();
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("cmsDataUpdated", onCmsDataUpdated);
+
     return () => {
       alive = false;
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("cmsDataUpdated", onCmsDataUpdated);
     };
   }, []);
 

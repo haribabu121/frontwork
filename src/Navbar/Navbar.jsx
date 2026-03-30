@@ -61,17 +61,18 @@ const MarqueeText = () => {
     };
     load();
 
-    const refreshHandler = () => {
-      load();
-    };
-    window.addEventListener("storage", (e) => {
+    const onStorage = (e) => {
       if (e.key === "cmsUpdated") load();
-    });
+    };
+    const onCmsDataUpdated = () => load();
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("cmsDataUpdated", onCmsDataUpdated);
     const t = setInterval(load, 60000);
     return () => {
       cancelled = true;
       clearInterval(t);
-      window.removeEventListener("storage", refreshHandler);
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("cmsDataUpdated", onCmsDataUpdated);
     };
   }, []);
 

@@ -5,6 +5,7 @@ const AdminGallery = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [ok, setOk] = useState("");
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(async () => {
@@ -31,12 +32,30 @@ const AdminGallery = () => {
     });
   };
 
+  const handleImageUpload = (index, file) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Only image files are allowed.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      updateRow(index, "image", event.target.result);
+      setError("");
+    };
+    reader.onerror = () => setError("Failed to read image file.");
+    reader.readAsDataURL(file);
+  };
+
   const addRow = () => {
     const nid = items.length ? Math.max(...items.map((x) => Number(x.id) || 0)) + 1 : 1;
     setItems((prev) => [...prev, { id: nid, image: "", title: "", description: "", event: "Event" }]);
   };
 
   const removeRow = (index) => {
+    if (!window.confirm("Remove this slide? This cannot be undone.")) {
+      return;
+    }
     const next = items.filter((_, i) => i !== index);
     setItems(next);
     saveAll(next);
@@ -45,6 +64,7 @@ const AdminGallery = () => {
   const saveAll = async (nextItems = items) => {
     setSaving(true);
     setError("");
+    setOk("");
     try {
       await fetchAdmin("/api/admin/gallery", {
         method: "PUT",
@@ -52,6 +72,7 @@ const AdminGallery = () => {
       });
       setItems(nextItems);
       await load();
+      setOk("Gallery updated. Main site will refresh shortly.");
       window.dispatchEvent(new Event("cmsDataUpdated"));
       localStorage.setItem("cmsUpdated", Date.now());
     } catch (e) {
@@ -68,6 +89,7 @@ const AdminGallery = () => {
         Photo URLs appear in the home page gallery carousel. Save to publish.
       </p>
       {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+      {ok && <p className="text-emerald-400 text-sm mb-4">{ok}</p>}
       {loading && <p className="text-slate-400">Loading…</p>}
 
       <div className="flex flex-wrap gap-2 mb-6">
@@ -97,7 +119,14 @@ const AdminGallery = () => {
                 className="w-full rounded-lg bg-black/30 border border-white/20 px-3 py-2 text-white text-sm"
                 value={row.image}
                 onChange={(e) => updateRow(index, "image", e.target.value)}
-                placeholder="https://..."
+                placeholder="https://... or browse file"
+              />
+              <label className="text-xs text-slate-500">Upload image</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="w-full text-xs text-white"
+                onChange={(e) => handleImageUpload(index, e.target.files?.[0])}
               />
               {row.image && (
                 <img src={row.image} alt="" className="w-full h-40 object-cover rounded-lg bg-black/40 mt-2" />

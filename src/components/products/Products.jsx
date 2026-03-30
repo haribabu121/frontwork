@@ -251,6 +251,8 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
 
+  const visibleProducts = products.filter((p) => p.active !== false);
+
   useEffect(() => {
     let cancelled = false;
     let isFirstLoad = true;
@@ -269,18 +271,19 @@ const Products = () => {
     };
     load();
 
-    const refreshHandler = () => {
-      load();
-    };
-
-    window.addEventListener("storage", (e) => {
+    const onStorage = (e) => {
       if (e.key === "cmsUpdated") load();
-    });
+    };
+    const onCmsDataUpdated = () => load();
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("cmsDataUpdated", onCmsDataUpdated);
     const interval = setInterval(load, 60000); // Refresh every 60 seconds
     return () => {
       cancelled = true;
       clearInterval(interval);
-      window.removeEventListener("storage", refreshHandler);
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("cmsDataUpdated", onCmsDataUpdated);
     };
   }, []);
 
@@ -457,7 +460,7 @@ const Products = () => {
           <div className="flex flex-wrap justify-center gap-6 sm:gap-8 mt-8 sm:mt-12 animate-fade-in-up delay-300 px-2">
             <div className="text-center min-w-[4.5rem]">
               <div className="text-2xl font-bold text-white sm:text-3xl">
-                {catalogLoading ? "…" : products.length > 0 ? `${products.length}+` : "—"}
+                {catalogLoading ? "…" : visibleProducts.length > 0 ? `${visibleProducts.length}+` : "—"}
               </div>
               <div className="text-gray-400 text-sm">Products</div>
             </div>
@@ -483,7 +486,7 @@ const Products = () => {
             </div>
           )}
 
-          {products.map((p, index) => (
+          {visibleProducts.map((p, index) => (
             <div
               key={p.id}
               id={`product-${productDomId(p.name)}`}
@@ -736,3 +739,4 @@ const Products = () => {
 };
 
 export default Products;
+   

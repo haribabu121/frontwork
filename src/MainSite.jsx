@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Detail from "./components/common/Detail";
+// import Detail from "./components/common/Detail";
 import Navbar from "./Navbar/Navbar";
 import Hero from "./components/hero/Hero";
 import Products from "./components/products/Products";
@@ -77,7 +77,7 @@ const MainSite = () => (
       </Routes>
     </main>
     <Footer />
-    <Detail />
+    {/* <Detail /> */}
     <ScrollToTop />
   </>
 );

@@ -79,7 +79,7 @@ const MarqueeText = () => {
   return (
     <div className="bg-yellow-500 text-black py-1.5 sm:py-2 overflow-hidden w-full z-50 relative">
       <div className="whitespace-nowrap w-full">
-        <div className="inline-block whitespace-nowrap animate-marquee">
+        <div className="inline-block whitespace-nowrap animate-marquee hover:pause-marquee">
           {[...Array(4)].map((_, i) => (
             <span key={i} className="mx-4 sm:mx-8 text-xs sm:text-sm font-medium">
               {announcement}
@@ -96,6 +96,10 @@ const MarqueeText = () => {
           display: inline-block;
           animation: marquee 25s linear infinite;
           will-change: transform;
+        }
+        .animate-marquee:hover,
+        .hover\:pause-marquee:hover {
+          animation-play-state: paused;
         }
         @media (max-width: 768px) {
           .animate-marquee {

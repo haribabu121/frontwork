@@ -78,8 +78,8 @@ const MarqueeText = () => {
 
   return (
     <div className="bg-yellow-500 text-black py-1.5 sm:py-2 overflow-hidden w-full z-50 relative">
-      <div className="whitespace-nowrap w-full">
-        <div className="inline-block whitespace-nowrap animate-marquee hover:pause-marquee">
+      <div className="whitespace-nowrap w-max">
+        <div className="inline-block whitespace-nowrap animate-marquee">
           {[...Array(4)].map((_, i) => (
             <span key={i} className="mx-4 sm:mx-8 text-xs sm:text-sm font-medium">
               {announcement}
@@ -87,26 +87,6 @@ const MarqueeText = () => {
           ))}
         </div>
       </div>
-      <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          display: inline-block;
-          animation: marquee 25s linear infinite;
-          will-change: transform;
-        }
-        .animate-marquee:hover,
-        .hover\:pause-marquee:hover {
-          animation-play-state: paused;
-        }
-        @media (max-width: 768px) {
-          .animate-marquee {
-            animation-duration: 35s;
-          }
-        }
-      `}</style>
     </div>
   );
 };

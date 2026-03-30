@@ -48,27 +48,11 @@ const MarqueeText = () => (
         <span className="mx-4 font-medium"><FaStar className="inline mr-2" />🎉 Special discount on wedding packages this month!</span>
         <span className="mx-4 font-medium"><GiFireworkRocket className="inline mr-2" />✨ Book your event now and get 10% off on all services</span>
         <span className="mx-4 font-medium"><FaFireAlt className="inline mr-2" />🔥 Limited time offer: Free decoration with every booking</span>
-
-         <h1 class="text-3xl font-bold underline">
-    Hello paul!
-  </h1>
+        <span className="mx-4 font-medium"><FaStar className="inline mr-2" />🎉 Special discount on wedding packages this month!</span>
+        <span className="mx-4 font-medium"><GiFireworkRocket className="inline mr-2" />✨ Book your event now and get 10% off on all services</span>
+        <span className="mx-4 font-medium"><FaFireAlt className="inline mr-2" />🔥 Limited time offer: Free decoration with every booking</span>
       </div>
     </div>
-    <style jsx>{`
-      @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-      }
-      .animate-marquee {
-        display: inline-block;
-        animation: marquee 20s linear infinite;
-      }
-      @media (max-width: 768px) {
-        .animate-marquee {
-          animation-duration: 30s;
-        }
-      }
-    `}</style>
   </div>
 );
 

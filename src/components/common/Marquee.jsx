@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Marquee = ({ items, speed = 30, className = "" }) => {
+const Marquee = ({ items, speed = 15, className = "" }) => {
   const [isPaused, setIsPaused] = useState(false);
 
   return (
@@ -24,13 +24,6 @@ const Marquee = ({ items, speed = 30, className = "" }) => {
           </span>
         ))}
       </div>
-
-      <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(100%); }
-          100% { transform: translateX(-100%); }
-        }
-      `}</style>
     </div>
   );
 };

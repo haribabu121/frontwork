@@ -25,11 +25,10 @@ const AdminGallery = () => {
   }, [load]);
 
   const updateRow = (index, field, value) => {
-    setItems((prev) => {
-      const next = [...prev];
-      next[index] = { ...next[index], [field]: value };
-      return next;
-    });
+    const next = [...items];
+    next[index] = { ...next[index], [field]: value };
+    setItems(next);
+    saveAll(next);
   };
 
   const handleImageUpload = (index, file) => {
@@ -49,7 +48,9 @@ const AdminGallery = () => {
 
   const addRow = () => {
     const nid = items.length ? Math.max(...items.map((x) => Number(x.id) || 0)) + 1 : 1;
-    setItems((prev) => [...prev, { id: nid, image: "", title: "", description: "", event: "Event" }]);
+    const next = [...items, { id: nid, image: "", title: "", description: "", event: "Event" }];
+    setItems(next);
+    saveAll(next);
   };
 
   const removeRow = (index) => {
@@ -99,14 +100,6 @@ const AdminGallery = () => {
           className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-sm font-semibold"
         >
           Add photo
-        </button>
-        <button
-          type="button"
-          onClick={saveAll}
-          disabled={saving}
-          className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium disabled:opacity-50"
-        >
-          {saving ? "Saving…" : "Save gallery"}
         </button>
       </div>
 

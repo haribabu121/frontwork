@@ -22,21 +22,22 @@ const AdminProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [ok, setOk] = useState("");
 
-  const load = useCallback(async () => {
+  const load = async () => {
     setError("");
+    setLoading(true);
     try {
-      const data = await fetchAdmin("/api/admin/products");
+      const data = await fetchAdmin("/api/admin/products?refresh=true");
       setProducts(data.products || []);
     } catch (e) {
       setError(e.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     load();
-  }, [load]);
+  }, []);
 
   const openAdd = () => {
     setEditProduct(null);
@@ -90,9 +91,12 @@ const AdminProducts = () => {
       setEditProduct(null);
       setForm(emptyForm);
       setShowForm(false);
-      await load();
-      window.dispatchEvent(new Event("cmsDataUpdated"));
-      localStorage.setItem("cmsUpdated", Date.now());
+      // Small delay to ensure backend saves data
+      setTimeout(async () => {
+        await load();
+        window.dispatchEvent(new Event("cmsDataUpdated"));
+        localStorage.setItem("cmsUpdated", Date.now());
+      }, 100);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -109,10 +113,12 @@ const AdminProducts = () => {
         body: JSON.stringify({ active }),
       });
       setOk(active ? "Product activated." : "Product deactivated.");
-      // Refresh from server so state is authoritative and stable
-      await load();
-      window.dispatchEvent(new Event("cmsDataUpdated"));
-      localStorage.setItem("cmsUpdated", Date.now());
+      // Small delay to ensure backend saves data
+      setTimeout(async () => {
+        await load();
+        window.dispatchEvent(new Event("cmsDataUpdated"));
+        localStorage.setItem("cmsUpdated", Date.now());
+      }, 100);
     } catch (e) {
       setError(e.message);
     } finally {

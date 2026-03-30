@@ -411,20 +411,22 @@ const NavbarContent = () => {
           </Link>
 
           {/* About Us */}
-          <li
+          <div
             onMouseEnter={() => isDesktop && setShowAbout(true)}
             onMouseLeave={() => isDesktop && setShowAbout(false)}
-            onClick={() => !isDesktop && setShowAbout(!showAbout)}
             className="relative"
           >
-            <div className="flex items-center gap-2 cursor-pointer hover:text-green-600">
+            <div 
+              onClick={() => !isDesktop && setShowAbout(!showAbout)}
+              className="flex items-center gap-2 cursor-pointer hover:text-green-600 py-2.5 lg:py-1"
+            >
               <FaInfoCircle /> About Us
               <FaChevronDown className={`transition ${showAbout ? "rotate-180" : ""}`} />
             </div>
 
             {/* Dropdown */}
             <ul
-              className={`mt-1 rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 w-full lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:border-0
+              className={`top-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 w-full lg:absolute lg:left-0 lg:w-56 lg:border-0
               ${showAbout ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
               style={{ zIndex: 1002, maxHeight: "min(60vh, 20rem)", overflowY: "auto" }}
             >
@@ -444,23 +446,25 @@ const NavbarContent = () => {
                 <FaBookOpen /> FAQs
               </li>
             </ul>
-          </li>
+          </div>
 
           {/* Products */}
-          <li
+          <div
             onMouseEnter={() => isDesktop && setShowProducts(true)}
             onMouseLeave={() => isDesktop && setShowProducts(false)}
-            onClick={() => !isDesktop && setShowProducts(!showProducts)}
             className="relative"
           >
-            <div className="flex items-center gap-2 hover:text-green-600 cursor-pointer">
+            <div 
+              onClick={() => !isDesktop && setShowProducts(!showProducts)}
+              className="flex items-center gap-2 cursor-pointer hover:text-green-600 py-2.5 lg:py-1"
+            >
               <FaBoxOpen /> Products
               <FaChevronDown className={`transition ${showProducts ? "rotate-180" : ""}`} />
             </div>
 
             {/* Dropdown */}
             <ul
-              className={`mt-1 w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:mt-2 lg:w-60 lg:border-0
+              className={`top-full w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:w-60 lg:border-0
               ${showProducts ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
               style={{ zIndex: 1002, maxHeight: "min(55vh, 22rem)", overflowY: "auto" }}
             >
@@ -489,17 +493,16 @@ const NavbarContent = () => {
                 <FaSmog className="text-gray-500" /> smoke gun
               </li>
             </ul>
-          </li>
+          </div>
 
           {/* Services */}
-          <li
+          <div
             onMouseEnter={() => isDesktop && setShowServices(true)}
             onMouseLeave={() => isDesktop && setShowServices(false)}
-            onClick={() => !isDesktop && setShowServices(!showServices)}
             className="relative"
           >
             <div 
-              className="flex items-center gap-2 hover:text-green-600 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer hover:text-green-600 py-2.5 lg:py-1"
               onClick={(e) => {
                 e.stopPropagation();
                 scrollToSection('services');
@@ -516,7 +519,7 @@ const NavbarContent = () => {
             </div>
 
             <ul
-              className={`mt-1 w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:mt-2 lg:w-64 lg:border-0
+              className={`top-full w-full rounded-lg border border-gray-100 bg-white p-2 shadow-xl transition-all z-50 lg:absolute lg:left-0 lg:w-64 lg:border-0
               ${showServices ? "opacity-100 visible translate-y-0" : "hidden lg:block lg:pointer-events-none lg:opacity-0 lg:invisible lg:-translate-y-3"}`}
               style={{ zIndex: 1002, maxHeight: "min(55vh, 24rem)", overflowY: "auto" }}
             >
@@ -548,7 +551,7 @@ const NavbarContent = () => {
                 <FaServer /> Software Engineering
               </li> */}
             </ul>
-          </li>
+          </div>
 
           {/* Industries */}
           {/* <li className="flex items-center gap-2 hover:text-green-600 cursor-pointer">

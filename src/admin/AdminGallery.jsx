@@ -37,6 +37,11 @@ const AdminGallery = () => {
       setError("Only image files are allowed.");
       return;
     }
+    const maxSize = 3 * 1024 * 1024; // 3 MB
+    if (file.size > maxSize) {
+      setError(`Image size must be less than 3 MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (event) => {
       updateRow(index, "image", event.target.result);

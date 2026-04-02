@@ -1,6 +1,13 @@
 const stripTrailingSlash = (url) => (String(url || "").replace(/\/+$|\s+/g, "").trim());
 
-export const API_BASE = stripTrailingSlash(import.meta.env.VITE_API_URL || "");
+const envApiUrl = stripTrailingSlash(import.meta.env.VITE_API_URL || "");
+const fallbackOrigin = typeof window !== "undefined" ? window.location.origin : "";
+
+export const API_BASE = envApiUrl || fallbackOrigin;
+
+if (!envApiUrl && typeof window !== "undefined") {
+  console.warn("[api] VITE_API_URL not set. Falling back to window.location.origin; ensure VITE_API_URL points to backend service in production.");
+}
 
 export const API_URLS = {
   CONTACT: `${API_BASE}/api/contact`,

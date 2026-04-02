@@ -1,12 +1,26 @@
 const stripTrailingSlash = (url) => (String(url || "").replace(/\/+$|\s+/g, "").trim());
 
+// For Vercel deployment, use the backend URL
 const envApiUrl = stripTrailingSlash(import.meta.env.VITE_API_URL || "");
 const fallbackOrigin = typeof window !== "undefined" ? window.location.origin : "";
 
-export const API_BASE = envApiUrl || fallbackOrigin;
+// In production, if no VITE_API_URL is set, try to infer the backend URL
+const getProductionBackendUrl = () => {
+  if (typeof window === "undefined") return "";
+  const hostname = window.location.hostname;
+  
+  // If we're on the frontend domain, try to point to backend
+  if (hostname.includes('akeventsandfireworks.online')) {
+    return 'https://workends.vercel.app';
+  }
+  
+  return fallbackOrigin;
+};
+
+export const API_BASE = envApiUrl || (import.meta.env.PROD ? getProductionBackendUrl() : fallbackOrigin);
 
 if (!envApiUrl && typeof window !== "undefined") {
-  console.warn("[api] VITE_API_URL not set. Falling back to window.location.origin; ensure VITE_API_URL points to backend service in production.");
+  console.warn("[api] VITE_API_URL not set. Using:", API_BASE);
 }
 
 export const API_URLS = {

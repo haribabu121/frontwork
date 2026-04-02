@@ -29,7 +29,12 @@ const AdminProducts = () => {
       const data = await fetchAdmin("/api/admin/products?refresh=true");
       setProducts(data.products || []);
     } catch (e) {
-      setError(e.message);
+      console.error("Failed to load products:", e);
+      setError(`Failed to load products: ${e.message}`);
+      // Check if it's a network/CORS issue
+      if (e.message.includes('fetch') || e.message.includes('network')) {
+        setError("Network error: Unable to connect to backend. Please check if the backend is deployed correctly.");
+      }
     } finally {
       setLoading(false);
     }
